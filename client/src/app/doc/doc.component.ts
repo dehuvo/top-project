@@ -3,7 +3,7 @@ import { Doc, Approval } from './doc.model';
 import { Emp } from '../emp-dept.model';
 import { DocHttpService} from './doc-http.service';
 
-const [ROWS, BLOCKS] = [5, 5];
+const [ROWS, PAGES] = [5, 5];
 
 @Component({
   selector: 'app-doc',
@@ -13,7 +13,7 @@ const [ROWS, BLOCKS] = [5, 5];
 export class DocComponent implements OnInit {
   constructor(private docHttp: DocHttpService) {}
 
-  UNIT = ROWS * BLOCKS;
+  UNIT = ROWS * PAGES;
   ROWS = ROWS;
   skip: number;
   off: number;
@@ -65,10 +65,11 @@ export class DocComponent implements OnInit {
         author: this.user.id,
         name: this.user.name,
         dept: this.user.deptName,
-        title: "", body: "" } as Doc;
-      this.doc.approvals = approvals;
+        title: "", body: "",
+        approvals: approvals
+      } as Doc;
       this.viewList = false;
-      this.editing = true;  
+      this.editing = true;
     });
   }
 

@@ -1,7 +1,5 @@
 package com.example.demo.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -12,7 +10,6 @@ import com.example.demo.domain.Dept;
 
 @Mapper
 public interface DeptDao {
-	
 	@Insert("insert into dept(name, up_id) values(#{name}, #{upId})")
 	@SelectKey(statement="select LAST_INSERT_ID()", before=false, keyProperty="id", resultType=Integer.class)
 	public int insert(Dept dept);
@@ -22,9 +19,7 @@ public interface DeptDao {
 	@Update("update dept set valid=false where id=#{id}")
 	public int delete(int id);	
 	
-	public List<Dept> findAll();
-	
-	public Dept findOne(int id);
+	public Dept find(int id);
 	
 	@Select("select coalesce(chief, 0) from dept where up_id is null and valid=true limit 1")
 	public int getTopId();

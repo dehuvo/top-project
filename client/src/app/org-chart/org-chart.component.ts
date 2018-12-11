@@ -20,7 +20,7 @@ export class OrgChartComponent implements OnInit {
   draggedId: string;  // 끌려가는 노드 id
 
   ngOnInit() {
-    this.http.getOrg().subscribe(dept => {
+    this.http.getDept().subscribe(dept => {
       this.depts = [dept];  // 조직도 root
       this.setDept(dept);   // 부서를 root 부서로 초기화
       this.setManager();    // 로그인 사용자가 매니저인가 조사하여 넣는다

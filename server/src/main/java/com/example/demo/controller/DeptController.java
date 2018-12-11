@@ -15,40 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.DeptDao;
-import com.example.demo.domain.Approval;
 import com.example.demo.domain.Dept;
 import com.example.demo.service.DeptService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/depts")
+@RequestMapping("/dept")
 public class DeptController {
 	@Autowired
 	private DeptDao dao;
 
 	@Autowired
 	private DeptService service;
-	
-	@GetMapping
-	public Object findAll() {
-		return response(dao.findAll());
+
+	@GetMapping()
+	public Object getDept() {
+		return response(service.getDept());
 	}
 
-	@GetMapping("/org")
-	public Object getOrg() {
-		return response(service.getOrg());
-	}
-	
 	@GetMapping("/name")
 	public Object getNames() {
 		return response(service.getNames());
 	}
-	
-	@GetMapping("/{id}")
-	public Object findById(@PathVariable int id) {
-		return response(dao.findOne(id));
-	}
-	
+
 	@GetMapping("/m/{id}")
 	public Object findMembers(@PathVariable int id) {
 		return response(service.findMembers(id));
@@ -63,7 +52,7 @@ public class DeptController {
 	public Object update(@RequestBody Dept dept) {
 		return response(dao.update(dept), HttpStatus.CONFLICT);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public Object delete(@PathVariable int id) {
 		return response(dao.delete(id), HttpStatus.NOT_FOUND);

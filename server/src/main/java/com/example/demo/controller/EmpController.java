@@ -22,7 +22,7 @@ import com.example.demo.service.EmpService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/emps")
+@RequestMapping("/emp")
 public class EmpController {
 	@Autowired
 	private EmpDao dao;
@@ -30,14 +30,14 @@ public class EmpController {
 	@Autowired
 	private EmpService service;
 
-	@GetMapping
-	public Object findAll() {
-		return response(dao.findAll());
-	}
-
 	@PostMapping("/c")
 	public Object findByCode(@RequestBody String code) {
 		return response(dao.findByCode(code));
+	}
+	
+	@PostMapping("/cc")
+	public Object countCode(@RequestBody String code) {
+		return response(dao.countCode(code));
 	}
 
 	@PostMapping("/pw")
@@ -47,12 +47,7 @@ public class EmpController {
 
 	@GetMapping("/{id}")
 	public Object findById(@PathVariable int id) {
-		return response(dao.findOne(id));
-	}
-	
-	@PostMapping("/j")
-	public Object findJoinCode(@RequestBody String code) {
-		return response(dao.findJoinCode(code));
+		return response(dao.find(id));
 	}
 
 	@DeleteMapping("/{id}")

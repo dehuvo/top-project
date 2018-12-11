@@ -3,19 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.EmpDao">
 
-	<select id="findAll" resultType="Emp">
-select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name 
-  from emp e left join dept d on d.id = e.dept_id
- where e.valid = true
-	</select>
-
 	<select id="findMembers" resultType="Emp">
 select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name 
   from emp e left join dept d on d.id = e.dept_id
  where e.valid = true and e.dept_id = #{id}
 	</select>
 
-	<select id="findOne" resultType="Emp">
+	<select id="find" resultType="Emp">
 		select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
 		from emp e left join dept d on d.id = e.dept_id
 		where e.id = #{id}

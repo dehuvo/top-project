@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import static com.example.demo.service.Util.encrypt;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +12,6 @@ import com.example.demo.dao.DocDao;
 import com.example.demo.domain.Approval;
 import com.example.demo.domain.Dept;
 import com.example.demo.domain.Doc;
-import com.example.demo.domain.Emp;
 
 @Service
 public class DocService {
@@ -57,7 +54,7 @@ public class DocService {
 	public List<Approval> findApprovals(int deptId) {
 		List<Approval> list = new ArrayList<>();
 		for (Dept dept; 0 < deptId; deptId = dept.getUpId()) {
-			dept = deptDao.findOne(deptId);
+			dept = deptDao.find(deptId);
 			Approval a = new Approval();
 			a.setApprover(dept.getChief());
 			a.setName(dept.getChiefName());

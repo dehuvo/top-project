@@ -13,7 +13,6 @@ import com.example.demo.domain.Emp;
 
 @Mapper
 public interface EmpDao {
-	
 	@Insert("insert into emp(code,pw,name,phone,email,dept_id) values(#{e.code},#{pw},#{e.name},#{e.phone},#{e.email},#{e.deptId})")
 	@SelectKey(statement="select LAST_INSERT_ID()", before=false, keyProperty="e.id", resultType=Integer.class)
 	public int insert(@Param("e") Emp emp, @Param("pw") byte[] pw);
@@ -26,12 +25,10 @@ public interface EmpDao {
 	@Update("update dept set chief = null where chief = #{id} and valid = true")
 	public int deleteChief(int id);
 	
-	public List<Emp> findAll();
+	public Emp find(int id);
 	
-	public Emp findOne(int id);
-	
-	@Select("select count(*) from emp where code = #{code}")
-	public int findJoinCode(String code);
+	@Select("select count(id) from emp where code = #{code}")
+	public int countCode(String code);
 	
 	public List<Emp> findMembers(int id);
 	

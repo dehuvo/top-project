@@ -92,7 +92,7 @@ export class AppComponent {
   // 사용자 아이디 중복 검사 (아이디 입력 node)
   checkCode(code) {
     if (code.value != this.emp.code) {
-      this.http.codeChk(code.value).subscribe(count => {
+      this.http.countCode(code.value).subscribe(count => {
         if (this.codeError = 0 < count) {
           code.focus();
         }

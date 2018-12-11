@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.DocDao;
 import com.example.demo.domain.Approval;
-import com.example.demo.domain.Dept;
 import com.example.demo.domain.Doc;
 import com.example.demo.service.DocService;
 

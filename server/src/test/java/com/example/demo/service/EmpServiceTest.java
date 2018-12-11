@@ -44,7 +44,7 @@ public class EmpServiceTest {
 
 	@Test
 	public void testUpdate() {
-		Emp emp = dao.findOne(5);
+		Emp emp = dao.find(5);
 		emp.setCode("아이디");
 		emp.setPw("암호");
 		assertEquals(1, service.update(emp));

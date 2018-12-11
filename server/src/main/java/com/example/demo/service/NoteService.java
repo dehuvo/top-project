@@ -17,6 +17,6 @@ public class NoteService {
 	}
 	
 	public Object[] getList(int skip, int count) {
-		return new Object[] { dao.count(), dao.find(skip, count) };
+		return new Object[] { dao.count(), dao.getList(skip, count) };
 	}
 }

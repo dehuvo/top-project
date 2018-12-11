@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Note } from './note.model';
 
-const URL = "http://" + window.location.hostname + ":8080/notes/";
+const URL = "http://" + window.location.hostname + ":8080/note/";
 
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

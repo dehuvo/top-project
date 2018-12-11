@@ -20,41 +20,22 @@ import com.example.demo.service.NoteService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/note")
 public class NoteController {
 	@Autowired
 	private NoteDao dao;
 	
 	@Autowired
 	private NoteService service;
-
-	@GetMapping
-	public Object findAll() {
-		return response(dao.findAll());
-	}
-	
-	@PostMapping("/range")
-	public Object find(@RequestBody int[] range) {
-		return response(dao.find(range[0], range[1]));
-	}
 	
 	@PostMapping("/list")
 	public Object getList(@RequestBody int[] range) {
 		return response(service.getList(range[0], range[1]));
 	}
 
-	@PostMapping("/count")
-	public Object count() {		
-		return response(dao.count());
-	}
-	@PostMapping("/c")
-	public Object findBytitle(@RequestBody String title) {
-		return response(dao.findByTitle(title));
-	}
-
 	@GetMapping("/{id}")
-	public Object findById(@PathVariable int id) {
-		return response(dao.findOne(id));
+	public Object get(@PathVariable int id) {
+		return response(dao.get(id));
 	}
 
 	@DeleteMapping("/{id}")
@@ -71,5 +52,4 @@ public class NoteController {
 	public Object update(@RequestBody Note note) {
 		return response(dao.update(note), HttpStatus.CONFLICT);
 	}	
-	
 }

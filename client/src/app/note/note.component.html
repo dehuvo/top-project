@@ -1,52 +1,4 @@
-<div *ngIf="!viewList && editing && note" class="table-responsive">
-  <form class="form-horizontal">
-    <h4 class="sub-header">게시판 글작성</h4>
-    <div class="control-group controls well bs-component">
-      <div class="form-group">
-        <label class="col-lg-2 control-label">제목</label>
-        <div class="col-lg-8">
-          <input type="text" class="form-control" [value]="note.title" #title>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="textArea" class="col-lg-2 control-label">내용</label>
-        <div class="col-lg-8">
-          <textarea class="form-control" rows="10" style="resize: none" [value]="note.body" #body></textarea>
-        </div>
-      </div>
-      <p class="text-right">
-        <button class="btn btn-primary btn-sm" (click)="save(title.value, body.value)">등록</button>&nbsp;
-        <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>
-      </p>
-    </div>
-  </form>
-</div>
-
-<div *ngIf="!viewList && !editing && note">
-  <h4 class="sub-header">게시판 상세보기</h4>
-  <table class="table-bordered">
-    <tr class="active">
-      <th style="width:15%">작성자</th>
-      <td style="width:35%">{{note.name}}</td>
-      <th style="width:15%">작성일시</th>
-      <td style="width:35%">{{note.ts|date:'yyyy년 M월 d일 H시 m분'}}</td>
-    </tr>
-    <tr class="textLeft">
-      <th>제목</th>
-      <td colspan="3">{{note.title}}</td>
-    </tr>
-    <tr class="textLeft">
-      <th>내용</th>
-      <td class="textArea" colspan="3">{{note.body}}</td>
-    </tr>
-  </table>
-  <p class="text-right" style="margin-top: 10px">
-    <a *ngIf="user.id == note.author" class="btn btn-default btn-sm" (click)="delete()">삭제</a>&nbsp;
-    <a *ngIf="user.id == note.author" class="btn btn-primary btn-sm" (click)="editing = true">수정</a>&nbsp;
-    <a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a>
-  </p>
-</div>
-
+<!-- 목록 -->
 <div *ngIf="viewList">
   <p class="text-right">
     <a class="btn btn-success btn-sm" (click)="newNote()">글작성</a>
@@ -81,57 +33,56 @@
     <div  *ngIf="skip - off + UNIT &lt; count" class="pagination"><a
          (click)="getList((count - 1) - (count - 1) % ROWS)">&#x25cf;</a></div>
   </div>
-  <!-- <span>&#x25cf; &#x2b24; &#x26ab; &#x25fc; &#x25b7; &#x25c1;  &#x25c0; &#x25b6;</span> -->
+<!-- &#x25cf; &#x2b24; &#x26ab; &#x25fc; &#x25b7; &#x25c1;  &#x25c0; &#x25b6; -->
 </div>
 
-<!-- <div *ngIf="!viewList && note">
-  <header>
-    <span *ngIf="!editing">{{note.title}}</span>
-    <input [hidden]="!editing" [value]="note.title" #title placeholder="제목">
-  </header>
-  <article *ngIf="!editing">{{note.body}}</article>
-  <textarea [hidden]="!editing" [value]="note.body" #body></textarea>
-  <footer *ngIf="!editing">
-    작성자: <span>{{note.name}}</span> <i></i> 작성일시: <span>{{note.ts}}</span>
-    <span class="float-right">
-      <span *ngIf="user.id == note.author" (click)="editing = true">수정</span>
-      <span *ngIf="user.id == note.author" (click)="delete()">삭제</span>
-      <span (click)="getList(skip)">목록</span>
-    </span>
-  </footer>
-  <footer *ngIf="editing">
-    <span class="float-right">
-      <span (click)="save(title.value, body.value)">적용</span>
-      <span (click)="cancel()">취소</span>
-    </span>
-  </footer>
+<!-- 글 쓰기 / 수정 -->
+<div *ngIf="!viewList && editing && note" class="table-responsive">
+  <form class="form-horizontal">
+    <h4 class="sub-header">게시판 글작성</h4>
+    <div class="control-group controls well bs-component">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">제목</label>
+        <div class="col-lg-8">
+          <input type="text" class="form-control" [value]="note.title" #title>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="textArea" class="col-lg-2 control-label">내용</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" rows="10" style="resize: none" [value]="note.body" #body></textarea>
+        </div>
+      </div>
+      <p class="text-right">
+        <button class="btn btn-primary btn-sm" (click)="save(title, body)">등록</button>&nbsp;
+        <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>
+      </p>
+    </div>
+  </form>
 </div>
 
-<div *ngIf="viewList">
-  <table class="table table-bordered">
+<!-- 글 보기 -->
+<div *ngIf="!viewList && !editing && note">
+  <h4 class="sub-header">게시판 상세보기</h4>
+  <table class="table-bordered">
     <tr class="active">
-      <th>글번호</th><th>제목</th><th>작성자</th><th>등록일시</th>
+      <th style="width:15%">작성자</th>
+      <td style="width:35%">{{note.name}}</td>
+      <th style="width:15%">작성일시</th>
+      <td style="width:35%">{{note.ts|date:'yyyy년 M월 d일 H시 m분'}}</td>
     </tr>
-    <tr *ngFor="let note of notes; index as i" (click)="get(note.id)">
-      <td>{{count - skip - i}}</td>
-      <td>{{note.title}}</td>
-      <td>{{note.name}}</td>
-      <td>{{note.ts}}</td>
+    <tr class="textLeft">
+      <th>제목</th>
+      <td colspan="3">{{note.title}}</td>
+    </tr>
+    <tr class="textLeft">
+      <th>내용</th>
+      <td class="textArea" colspan="3">{{note.body}}</td>
     </tr>
   </table>
-  <div style="text-align: center">
-    <span  *ngIf="UNIT &lt;= skip"
-         (click)="getList(0)">&#x25cf;</span>
-    <span  *ngIf="UNIT * 2 &lt;= skip"
-         (click)="getList(skip - off - ROWS)">&#x25c0;</span>
-    <span *ngFor="let s of skips; index as i"
-         (click)="getList(s)" [class.selected]="i == off/ROWS">{{count - s}}</span>
-    <span  *ngIf="skip - off + UNIT * 2 &lt; count"
-         (click)="getList(skip - off + UNIT)">&#x25b6;</span>
-    <span  *ngIf="skip - off + UNIT &lt; count"
-         (click)="getList((count - 1) - (count - 1) % ROWS)">&#x25cf;</span>
-    <span class="float-right">
-      <span (click)="newNote()">새 글 쓰기</span>
-    </span>
-  </div>
-</div> -->
+  <p class="text-right" style="margin-top: 10px">
+    <a *ngIf="user.id == note.author" class="btn btn-default btn-sm" (click)="delete()">삭제</a>&nbsp;
+    <a *ngIf="user.id == note.author" class="btn btn-primary btn-sm" (click)="editing = true">수정</a>&nbsp;
+    <a class="btn btn-default btn-sm" (click)="gotoList()">목록</a>
+  </p>
+</div>

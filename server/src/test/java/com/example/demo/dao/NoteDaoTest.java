@@ -32,7 +32,7 @@ public class NoteDaoTest {
 
 	@Test
 	public void testFind() {
-		dao.find(1, 2).forEach(System.out::println);
+		dao.getList(1, 2).forEach(System.out::println);
 	}
 
 	@Test
