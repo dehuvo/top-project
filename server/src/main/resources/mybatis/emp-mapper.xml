@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.EmpDao">
+
+	<select id="findAll" resultType="Emp">
+select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name 
+  from emp e left join dept d on d.id = e.dept_id
+ where e.valid = true
+	</select>
+
+	<select id="findMembers" resultType="Emp">
+select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name 
+  from emp e left join dept d on d.id = e.dept_id
+ where e.valid = true and e.dept_id = #{id}
+	</select>
+
+	<select id="findOne" resultType="Emp">
+		select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
+		from emp e left join dept d on d.id = e.dept_id
+		where e.id = #{id}
+	</select>
+
+	<update id="update" parameterType="map">
+		update emp
+		<set>
+			<if test="(e.code != null) and (e.code != '')">code=#{e.code},</if>
+			<if test="pw != null">pw=#{pw},</if>
+			<if test="(e.name != null) and (e.name != '')">name=#{e.name},</if>
+			<if test="(e.phone != null) and (e.phone != '')">phone=#{e.phone},</if>
+			<if test="(e.email != null) and (e.email != '')">email=#{e.email},</if>
+			<if test="e.deptId">dept_id=#{e.deptId}</if>
+		</set>
+		where id=#{e.id}
+	</update>
+	
+	<select id="findByCode" resultType="Emp">
+		select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
+		from emp e left join dept d on d.id = e.dept_id
+		where e.code = #{code}
+	</select>
+ </mapper>

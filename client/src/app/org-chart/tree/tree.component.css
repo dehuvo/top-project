@@ -1,0 +1,24 @@
+li {
+  list-style-type: none;
+  border: 1px solid silver;
+  padding: .6rem 0 .6rem .6rem;
+  cursor: pointer;
+}
+li li:first-child {
+  margin-top: .6rem;
+}
+li li:last-child {
+  margin-bottom: -.6rem;
+}
+li li {
+  border-right-width: 0;
+  border-bottom-width: 0;
+}
+li li span {
+  cursor: move;
+}
+li b {
+  float: right;
+  color: blue;
+  margin-right: 1.5rem;
+}

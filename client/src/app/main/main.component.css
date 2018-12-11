@@ -1,0 +1,46 @@
+img {
+    margin-top: -2rem;
+}
+.bs-docs-section {
+    margin-top: -8rem;
+}
+img{
+    height: 30%;
+    width: 100%;
+    /* max-height: 400px; */
+    table-layout: fixed;
+    align-content: center;
+    opacity: 0.7;
+}
+table{
+    width: 100%;
+	table-layout: fixed;
+}
+table, th, div {
+    /* padding: 7px; */
+    text-align: center;
+    table-layout: fixed;
+    min-width: 50px;
+    border: 1px solid #dad9d9;
+}
+a {
+    cursor: pointer;
+}
+th {
+    background-color:#F6F8F8;
+    border: 1px solid #c0c0c0;
+}
+th, td {
+    padding: 0 7px;
+    table-layout: fixed;
+}
+tr {
+    width: 100%;
+}
+h5 {
+    text-align: center;
+    color:#3399FF;
+    font-weight:bold;
+    font-size:15px;
+    cursor: pointer;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.DeptDao">
+
+	<select id="findAll" resultType="Dept">
+select d.id, d.name, d.chief, e.name chief_name, d.up_id, u.name up_name
+  from dept d left join dept u on u.id = d.up_id
+              left join  emp e on e.id = d.chief
+ where d.valid = true
+	</select>
+
+	<select id="findOne" resultType="Dept">
+select d.id, d.name, d.chief, e.name chief_name, d.up_id, u.name up_name 
+  from dept d left join dept u on u.id = d.up_id
+              left join  emp e on e.id = d.chief
+ where d.id = #{id}
+	</select>
+
+	<update id="update" parameterType="Dept">
+		update dept
+		<set>
+			<if test="(name != null) and (name != '')">name=#{name},</if>
+			<if test="chief lt 0">chief=null,</if>
+			<if test="chief gt 0">chief=#{chief},</if>
+			<if test="upId">up_id=#{upId}</if>
+		</set>
+		where id=#{id}
+	</update>
+ </mapper>

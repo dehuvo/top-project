@@ -1,0 +1,45 @@
+<img src="../../assets/image/123.jpg" alt="tc">
+<div class="bs-docs-section">
+  <div class="responsive" class="col-lg-6">
+    <h5 class="sub-header" routerLink="doc" >전자결재</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-lg-2">작성부서</th>
+          <th class="col-lg-6">제목</th>
+          <th class="col-lg-2">작성일</th>
+          <th class="col-lg-2">상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of docs">
+          <td>{{doc.dept}}</td>
+          <td class="textLeft"><p>{{doc.title}}</p></td>
+          <td>{{doc.ts | date:'M월 d일'}}</td>
+          <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": ""}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="responsive" class="col-lg-6">
+    <h5 class="sub-header" routerLink="note">게시판</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-lg-2">번호</th>
+          <th class="col-lg-6">제목</th>
+          <th class="col-lg-2">작성자</th>
+          <th class="col-lg-2">등록일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let note of notes;index as i" data-index="#i">
+          <td>{{note.id}}</td>
+          <td class="textLeft"><p >{{note.title}}</p></td>
+          <td>{{note.name}}</td>
+          <td>{{note.ts | date:'M월 d일'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.DocDao">
+	<select id="findAll" resultType="Doc">
+		select doc.id, doc.title, doc.body, doc.publish, doc.author, emp.name as authorName, doc.ts, emp.dept_name as deptName
+		from doc
+		left join (
+			select emp.id, emp.dept_id, dept.name dept_name, emp.name
+			from emp
+			left join dept ON emp.dept_id = dept.id
+		) emp on doc.author=emp.id
+		order by doc.id desc
+	</select>
+	
+	<select id="find" resultType="Doc">
+select c.id, c.author, d.name dept, e.name, c.title, c.publish, c.ts,
+       case when s.n = 3    then 3
+            when s.x &lt; 2 then 1
+                            else 2 end stat  
+  from doc c, emp e, dept d, approval a, (
+       select min(stat) n, max(stat) x
+         from approval, doc
+        where doc_id = doc.id
+        group by doc_id) s
+ where e.dept_id = d.id and c.author = e.id and c.id = a.doc_id
+   and (c.author = #{id} or a.approver = #{id} and 0 &lt; a.stat or c.publish = true and s.n = 3)
+	group by a.doc_id order by stat, c.id desc limit #{skip}, #{count}
+	</select>
+
+	<select id="count" resultType="int">
+select count(*)
+  from doc c, emp e, dept d, approval a, (
+       select min(stat) n, max(stat) x
+         from approval, doc
+        where doc_id = doc.id
+        group by doc_id) s
+ where e.dept_id = d.id and c.author = e.id and c.id = a.doc_id
+   and (c.author = #{id} or a.approver = #{id} and 0 &lt; a.stat or c.publish = true and s.n = 3)
+	group by a.doc_id
+	</select>
+
+	<select id="findByUpinfo" resultType="DocAppr">
+		select 	z.lev1_dept, z.lev1_chief, e1.name lev1_name
+				, z.lev2_dept, z.lev2_chief, e2.name lev2_name
+				, z.lev3_dept, z.lev3_chief, e3.name lev3_name
+		from(
+				select 	t1.name as lev1_dept, t1.chief as lev1_chief
+						, t2.name as lev2_dept, t2.chief as lev2_chief
+						, t3.name as lev3_dept, t3.chief as lev3_chief
+				from	 dept as t1
+				left join dept as t2 on t2.id = t1.up_id
+				left join dept as t3 on t3.id = t2.up_id
+				where t1.id = #{deptId}
+		) z
+		left join emp e1 on z.lev1_chief=e1.id
+		left join emp e2 on z.lev2_chief=e2.id
+		left join emp e3 on z.lev3_chief=e3.id
+	</select>
+
+	<update id="update" parameterType="Doc">
+		update doc
+		<set>
+			<if test="(title != null) and (title != '')">title=#{title}, </if>
+			<if test="(body != null) and (body != '')">body=#{body}, </if>
+			<if test="ts">ts=#{ts}</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<select id="myDoc" resultType="Doc">
+		select d.id as doc_id, d.title, d.author, emp.name as author_name, emp.dept_id, emp.dept_name as deptName, d.ts
+		from doc d
+		left join (
+		  select emp.id, emp.dept_id, dept.name dept_name, emp.name 
+		  from emp
+		  left join dept ON emp.dept_id = dept.id
+		) emp on d.author=emp.id
+		where d.author = #{author}
+		order by d.id desc
+	</select>
+	
+	<select id="aprvDoc" resultType="Doc">
+		select a.doc_id, d.title, d.author, emp.name as authorName, emp.dept_id, emp.dept_name as deptName, a.stat, d.ts
+		from approval a
+		left join doc d on d.id = a.doc_id
+		left join (
+		  select emp.id, emp.dept_id, dept.name dept_name, emp.name 
+		  from emp
+		  left join dept ON emp.dept_id = dept.id
+		) emp on d.author=emp.id
+		where a.approver = #{approver}
+		and a.stat = #{stat}
+		order by a.doc_id desc
+	</select>
+</mapper>

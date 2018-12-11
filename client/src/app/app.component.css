@@ -1,0 +1,19 @@
+.out {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+#in-edit {
+  display: inline-block;
+  width: 40%;
+}
+#in-signin {
+  display: inline-block;
+  width: 30%;
+}
+input {
+  text-align: center;
+}
+.dept, .update {
+  display: none;
+}

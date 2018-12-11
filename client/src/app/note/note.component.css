@@ -1,0 +1,118 @@
+table, th {
+    text-align: center;
+}
+fieldset {
+    margin-top: 15px;
+}
+a {
+    cursor: pointer;
+}
+th{
+    /* width:70px; */
+    background-color:#F6F8F8;
+    padding:7px;
+}
+td{
+    padding:7px;
+}
+h4{
+    color:#3399FF;
+    font-weight:bold;
+    font-size:15px;
+}
+table{
+    width:100%;
+}
+.center {
+    text-align: center;
+}
+.pagination {
+    display: inline-block;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 2px 4px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 1px;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+.textLeft {
+    text-align: left;
+}
+.textArea {
+    white-space: pre;
+}
+tr:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+.selected {
+    background-color: #ddd;
+}
+
+
+/* header > span, input {
+    padding: .2rem .5rem;
+}
+article, textarea {
+    padding: .5rem;
+}
+header > span, input, article, textarea {
+    font-family: "Malgun Gothic";
+    font-size: 2rem;
+    width: 100%;
+}
+header > span {
+    margin: 1px;
+}
+input {
+    margin-bottom: -1px;
+}
+input, article, textarea {
+    border: 1px solid lightgrey;
+}
+article {
+    white-space: pre;
+}
+article, textarea {
+    overflow: scroll;
+    height: 100px;
+    margin-bottom: 2rem;
+}
+footer {
+    margin: 0;
+}
+footer > span {
+    margin-left: 1rem;
+}
+footer i {
+    margin-left: 3rem;
+}
+
+div .selected {
+    background-color: #e8e8e8;
+}
+div > span, span > span {
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid lightgrey;
+    padding: 2px 4px;
+}
+div > span:not(:first-child), span > span:not(:first-child) {
+    border-left: 0;
+}
+.float-right {
+    float: right;
+    background-color: lightgrey;
+}
+tr:hover, div > span:hover, span > span:hover {
+    background-color: #f0f0f0;
+}
+td {
+    cursor: pointer;
+} */
