@@ -1,27 +1,23 @@
 <div *ngIf="!viewList && editing && note" class="table-responsive">
   <form class="form-horizontal">
     <h4 class="sub-header">게시판 글작성</h4>
-    <div class="control-group" id="fields">
-      <div class="controls">
-        <div class="well bs-component">
-          <div class="form-group">
-            <label class="col-lg-2 control-label">제목</label>
-            <div class="col-lg-8">
-              <input type="text" class="form-control" [value]="note.title" #title>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="textArea" class="col-lg-2 control-label">내용</label>
-            <div class="col-lg-8">
-              <textarea class="form-control" rows="10" style="resize: none" [value]="note.body" #body></textarea>
-            </div>
-          </div>
-          <p class="text-right">
-            <button class="btn btn-primary btn-sm" (click)="save(title.value, body.value)">등록</button>&nbsp;
-            <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>
-          </p>
+    <div class="control-group controls well bs-component">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">제목</label>
+        <div class="col-lg-8">
+          <input type="text" class="form-control" [value]="note.title" #title>
         </div>
       </div>
+      <div class="form-group">
+        <label for="textArea" class="col-lg-2 control-label">내용</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" rows="10" style="resize: none" [value]="note.body" #body></textarea>
+        </div>
+      </div>
+      <p class="text-right">
+        <button class="btn btn-primary btn-sm" (click)="save(title.value, body.value)">등록</button>&nbsp;
+        <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>
+      </p>
     </div>
   </form>
 </div>

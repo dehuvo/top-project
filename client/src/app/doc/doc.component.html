@@ -12,12 +12,13 @@
             </span>
           </label>
         </div>
+        <div class="col-lg-2"></div>
         <div *ngIf="doc.id" class="col-lg-8">
-            <p *ngFor="let appr of doc.approvals">
-                {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
-                {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
-                &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
-              </p>
+          <p *ngFor="let appr of doc.approvals">
+            {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
+            {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
+            &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
+          </p>
         </div>
       </div>
       <div class="form-group">
@@ -75,35 +76,31 @@
       <th>내용</th><td class="textLeft">{{doc.body}}</td>
     </tr>
   </table>
-
-  <p class="text-right" style="margin-top: 10px">
-    <a class="btn btn-primary btn-sm" (click)="aprv(doc.id)">승인</a>&nbsp;
-    <a class="btn btn-success btn-sm" (click)="return()">반려</a>&nbsp;
-    <a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a>
-  </p>
-</div>
-
-<!--
-<div>
-  <form *ngIf="returnMod==true" #f="ngForm" (ngSubmit)="returnAction(f, doc.id)" class="form-horizontal">
-    <div class="well bs-component">
-      <fieldset>
-        <div class="row" style="margin-top: 15px;">
-          <div class="form-group">
-            <label class="col-lg-2 control-label">반려사유</label>
-            <div class="col-lg-8">
-              <input type="text" class="form-control" id="reason" name="reason" [ngModel]="reason" />
-            </div>
-            <div class="col-lg-2">
-              <button type="submit" class="btn btn-success btn-sm" id="btn_mod">입력</button>&nbsp;
-              <a class="btn btn-default btn-sm" id="btn_cancel" (click)="cancel()">닫기</a>
-            </div>
-          </div>
-        </div>
-      </fieldset>
+  <form class="form-horizontal">
+    <div class="well bs-component controls control-group">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">메모</label>
+      <div class="col-lg-8">
+        <input type="text" class="form-control" #memo>
+      </div>
+      <div class="col-lg-2 text-right">
+        <a class="btn btn-primary btn-sm" (click)="aprv(doc.id)">승인</a>&nbsp;
+        <a class="btn btn-success btn-sm" (click)="return()">반려</a>&nbsp;
+        <a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a>
+      </div>
+    </div>
     </div>
   </form>
-</div> -->
+  <!-- <div class="row">
+    <div class="col-lg-2 text-center"><b>메모</b></div>
+    <div class="col-lg-8"><input type="text" class="form-control" #memo></div>
+    <div class="col-lg-2 text-right" style="width:100%; margin-top:-3rem">
+      <a class="btn btn-primary btn-sm" (click)="aprv(doc.id)">승인</a>&nbsp;
+      <a class="btn btn-success btn-sm" (click)="return()">반려</a>&nbsp;
+      <a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a>
+    </div> -->
+  <!-- </div> -->
+</div>
 
 <!-- 내 결재 리스트 -->
 <div *ngIf="viewList">

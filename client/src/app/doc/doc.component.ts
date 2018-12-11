@@ -25,6 +25,7 @@ export class DocComponent implements OnInit {
   viewList = false;
   editing = false;
   iRadio: number;
+  memo: string;
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
