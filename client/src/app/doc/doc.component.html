@@ -2,46 +2,48 @@
 <div *ngIf="!viewList && editing && doc">
   <h4 class="sub-header">※ 결재상신</h4>
   <form class="form-horizontal">
-    <div class="control-group">
-      <div class="controls">
-        <div class="well bs-component">
-          <div class="form-group">
-            <label class="col-lg-2 control-label" style="margin-top: 10px;">전결</label>
-            <div [class.newAppr]="!doc.id" class="col-lg-8">
-              <label class="radio-label">
-                <span *ngFor="let a of doc.approvals; index as i">
-                  <input class="radioBtn" type="radio" name="appr" (click)="radio(i)">{{a.name}} ({{a.dept}}) &nbsp;
-                </span>
-              </label>
-            </div>
-            <div *ngIf="doc.id" class="col-lg-8">
-                <p *ngFor="let appr of doc.approvals">
-                    {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
-                    {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
-                    &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
-                  </p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-2 control-label">제목</label>
-            <div class="col-lg-8">
-              <input type="text" class="form-control" [value]="doc.title" #title>
-            </div>
-            <div class="col-lg-2">
-              <input type="checkbox" [checked]="publish">공지
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="textArea" class="col-lg-2 control-label">내용</label>
-            <div class="col-lg-8">
-              <textarea class="form-control" rows="10" style="resize: none;" [value]="doc.body" #body></textarea>
-            </div>
-          </div>
-          <p class="text-right">
-            <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>&nbsp;
-            <button class="btn btn-primary btn-sm" (click)="save(title, body)">저장</button>&nbsp;
-            <button class="btn btn-primary btn-sm" (click)="up()">상신</button>
-          </p>
+    <div class="well bs-component controls control-group">
+      <div class="form-group">
+        <label class="col-lg-2 control-label" style="margin-top: 10px;">전결</label>
+        <div [class.newAppr]="!doc.id" class="col-lg-8">
+          <label class="radio-label">
+            <span *ngFor="let a of doc.approvals; index as i">
+              <input class="radioBtn" type="radio" name="appr" (click)="radio(i)">{{a.name}} ({{a.dept}}) &nbsp;
+            </span>
+          </label>
+        </div>
+        <div *ngIf="doc.id" class="col-lg-8">
+            <p *ngFor="let appr of doc.approvals">
+                {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
+                {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
+                &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
+              </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">제목</label>
+        <div class="col-lg-8">
+          <input type="text" class="form-control" [value]="doc.title" #title>
+        </div>
+        <div class="col-lg-2">
+          <input type="checkbox" [checked]="publish">공지
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="textArea" class="col-lg-2 control-label">내용</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" rows="10" style="resize: none;" [value]="doc.body" #body></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">메모</label>
+        <div class="col-lg-8">
+          <input type="text" class="form-control" [value]="memo" #memo>
+        </div>
+        <div class="col-lg-2 text-right">
+          <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>&nbsp;
+          <button class="btn btn-primary btn-sm" (click)="save(title, body)">저장</button>&nbsp;
+          <button class="btn btn-primary btn-sm" (click)="up()">상신</button>
         </div>
       </div>
     </div>
@@ -70,32 +72,18 @@
       <th>제목</th><td class="textLeft">{{doc.title}} &nbsp; {{doc.publish? "[공지]": ""}}</td>
     </tr>
     <tr style="text-align:left">
-      <th>내용</th><td class="textLeft">{{doc?.body}}</td>
+      <th>내용</th><td class="textLeft">{{doc.body}}</td>
     </tr>
   </table>
+
   <p class="text-right" style="margin-top: 10px">
-    <a class="btn btn-default btn-sm" id="btn_list" (click)="getList(skip)">목록</a>
+    <a class="btn btn-primary btn-sm" (click)="aprv(doc.id)">승인</a>&nbsp;
+    <a class="btn btn-success btn-sm" (click)="return()">반려</a>&nbsp;
+    <a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a>
   </p>
 </div>
 
-<!-- 게시판 버튼 -->
-<!-- <p class="text-right" style="margin-top: 10px">
-  <span *ngIf="docMenu=='doc'">
-    <a *ngIf="cnt==0" class="btn btn-default btn-sm" id="btn_del" (click)="remove(doc.id)">삭제</a>&nbsp;
-    <a *ngIf="cnt==0" class="btn btn-primary btn-sm" id="btn_mod" (click)="mod(doc.id)">수정</a>&nbsp;
-    <a class="btn btn-default btn-sm" id="btn_list" (click)="docList()">목록</a>
-  </span>
-  <span *ngIf="docMenu=='ing'">
-    <a class="btn btn-primary btn-sm" id="btn_appr" (click)="aprv(doc.id)">승인</a>&nbsp;
-    <a class="btn btn-success btn-sm" id="btn_return" (click)="return()">반려</a>&nbsp;
-    <a class="btn btn-default btn-sm" id="btn_list" href="../doc/docIng">목록</a>
-  </span>
-  <span *ngIf="docMenu=='end'">
-    <a class="btn btn-default btn-sm" id="btn_list" href="../doc/docEnd">목록</a>
-  </span>
-
-</p>
-
+<!--
 <div>
   <form *ngIf="returnMod==true" #f="ngForm" (ngSubmit)="returnAction(f, doc.id)" class="form-horizontal">
     <div class="well bs-component">
