@@ -13,7 +13,6 @@ import com.example.demo.domain.Note;
 
 @Mapper
 public interface NoteDao {
-	
 	@Insert("insert into note(title,body,author) values(#{title},#{body},#{author})")
 	@SelectKey(statement="select LAST_INSERT_ID()", before=false, keyProperty="id", resultType=Integer.class)
 	public int insert(Note note);
@@ -22,8 +21,6 @@ public interface NoteDao {
 	
 	@Delete("delete from note where id=#{id}")
 	public int delete(int empno);
-	
-	public List<Note> findAll();
 	
 	public List<Note> getList(@Param("skip") int skip, @Param("count") int count);
 	

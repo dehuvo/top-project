@@ -49,7 +49,7 @@ export class DocHttpService {
   }
 
   inserts(a: Approval[]): Observable<any> {
-    return this.http.post<Approval[]>(URL, a, HTTP_OPTIONS);
+    return this.http.post<Approval[]>(URL + "a", a, HTTP_OPTIONS);
   }
 
   update(doc: Doc): Observable<any> {

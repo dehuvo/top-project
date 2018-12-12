@@ -24,7 +24,8 @@ export class DocComponent implements OnInit {
   user: Emp;
   viewList = false;
   editing = false;
-  iRadio: number;
+  approvable = false;
+  aCount: number;
   memo: string;
 
   ngOnInit() {
@@ -54,7 +55,21 @@ export class DocComponent implements OnInit {
   private get(doc: Doc) {
     this.docHttp.get(doc.id).subscribe(data => {
       [(this.doc = doc).body, this.doc.approvals] = data;
+      this.aCount = data[1].length;
       this.editing = this.doc.author == this.user.id && this.doc.stat < 2;
+      if (this.editing) {
+        this.docHttp.getApprovals(this.user.deptId).subscribe(approvals => {
+          this.doc.approvals = approvals;
+        });
+      } else {
+        this.approvable = false;
+        for (const a of this.doc.approvals) {
+          if (a.stat == 2 && a.approver == this.user.id) {
+            this.approvable = true;
+            break;
+          }
+        }
+      }
       this.viewList = false;
     });
   }
@@ -66,8 +81,9 @@ export class DocComponent implements OnInit {
         name: this.user.name,
         dept: this.user.deptName,
         title: "", body: "",
-        approvals: approvals
+        approvals: approvals,
       } as Doc;
+      this.aCount = approvals.length;
       this.viewList = false;
       this.editing = true;
     });
@@ -77,36 +93,30 @@ export class DocComponent implements OnInit {
     this.docHttp.delete(this.doc.id).subscribe(() => this.gotoList());
   }
 
-  private save(title, body) {
+  private save(title, body, publish, stat) {
     this.doc.title = title.value;
     this.doc.body = body.value;
+    this.doc.publish = publish.checked;
     if (this.doc.id) {
       this.docHttp.update(this.doc).subscribe(() => {
+        this.doc.approvals[0].stat = stat;
         this.docHttp.updateAppr(this.doc.approvals[0]).subscribe(() => {
           this.gotoList();
         });
       });
     } else {
-      this.doc.approvals.length = this.iRadio;
+      this.doc.approvals.length = this.aCount;
       this.docHttp.insert(this.doc).subscribe(id => {
         this.doc.id = id;
         for (const a of this.doc.approvals) {
           a.docId = id;
         }
+        this.doc.approvals[0].stat = stat;
         this.docHttp.inserts(this.doc.approvals).subscribe(() => {
           this.gotoList();
         });
       });
     }
-  }
-
-  private radio(i: number) {
-    this.iRadio = i + 1;
-  }
-
-  private up(title, body) {
-    this.doc.approvals[0].stat = 2;
-    this.save(title, body);
   }
 
   private cancel() {

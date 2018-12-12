@@ -13,7 +13,7 @@ const HTTP_OPTIONS = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class HttpService {
+export class EmpDeptHttpService {
   constructor(private http: HttpClient) {}
 
   // 사용자 아이디로 사용자 정보를 불러온다 (사용자 아이디)

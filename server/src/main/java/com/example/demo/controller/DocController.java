@@ -49,21 +49,20 @@ public class DocController {
 	
 	// 전자결재 등록
 	@PostMapping
-	public Object insert(@RequestBody Doc doc) {
-		response(dao.insert(doc));
-		return doc.getId();
+	public Object insert(@RequestBody Object[] args) {
+		return response(service.insert((Doc) args[0], (int) args[1], (int) args[2]));
 	}
+	
+	// 전자결재 수정
+	@PutMapping
+	public Object update(@RequestBody Object[] args) {
+		return response(service.update((Doc) args[0], (int) args[1], (int) args[2]), HttpStatus.CONFLICT);
+	}	
 	
 	@PostMapping("/a")
 	public Object inserts(@RequestBody Approval[] approvals) {
 		return response(service.inserts(approvals), HttpStatus.FOUND);
 	}
-	
-	// 전자결재 수정
-	@PutMapping
-	public Object update(@RequestBody Doc doc) {
-		return response(dao.update(doc), HttpStatus.CONFLICT);
-	}	
 	
 	// 전자결재 삭제
 	@DeleteMapping("/{id}")

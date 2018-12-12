@@ -29,9 +29,45 @@ public class DocService {
 		return dao.delete(id);
 	}
 
-	public int insert(Doc doc) {
-		int rowsAffected = dao.insert(doc);
-		return rowsAffected == 1 ? doc.getId() : 0;
+	public int insert(Doc doc, int approvalCount, int stat) {
+		if (dao.insert(doc) == 1) {
+			int id = doc.getId();
+			List<Approval> list = findApprovals(id);
+			if (approvalCount < list.size()) {
+				list = list.subList(0, approvalCount);
+			}
+			if (0 < stat) {
+				list.get(0).setStat(stat);
+			}
+			for (Approval a: list) {
+				if (approvalDao.insert(a) == 0) return 0;
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	public int update(Doc doc, int approvalCount, int stat) {
+		if (dao.update(doc) == 1) {
+			int id = doc.getId();
+			List<Approval> list = doc.getApprovals();
+			int size = list.size();
+			for (int i = approvalCount; i < size; i++) {
+				approvalDao.delete(list.get(i).getId());
+			}
+			if (size < approvalCount) {
+				List<Approval> list0 = findApprovals(id);
+				for (int i = size; i < approvalCount; i++) {
+					approvalDao.insert(list0.get(i));
+				}
+			}
+			if (stat != list.get(0).getStat()) {
+				list.get(0).setStat(stat);
+				approvalDao.update(list.get(0));
+			}
+			return 1;
+		}
+		return 0;
 	}
 
 	public int inserts(Approval[] approvals) {

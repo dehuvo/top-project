@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,10 +44,10 @@ public class EmpController {
 		return response(service.isPwOk(codePw[0], codePw[1]));
 	}
 
-	@GetMapping("/{id}")
-	public Object findById(@PathVariable int id) {
-		return response(dao.find(id));
-	}
+//	@GetMapping("/{id}")
+//	public Object findById(@PathVariable int id) {
+//		return response(dao.find(id));
+//	}
 
 	@DeleteMapping("/{id}")
 	public Object delete(@PathVariable int id) {

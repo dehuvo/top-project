@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpService } from './http.service';
+import { EmpDeptHttpService } from './emp-dept-http.service';
 import { Emp } from './emp-dept.model';
 
 const EMPTY_EMP = { id:0, code:"", name:"", phone:"", email:"" } as Emp;
@@ -10,14 +10,14 @@ const EMPTY_EMP = { id:0, code:"", name:"", phone:"", email:"" } as Emp;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(private http: EmpDeptHttpService) {}
+
   emp: Emp  = Object.assign({}, EMPTY_EMP);  // 로그인 사용자
   depts: object[][];  // [부서 id, 부서 이름] 배열
   editing   = false;  // 사용자 정보 작성/수정 중
   okUpdate  = false;  // 사용자 정보 수정 전에 비밀번호 확인되었음
   pwError   = false;  // 비밀번호가 맞지 않거나 밉력한 두 비밀번호가 다름
   codeError = false;  // 이미 사용 중인 사용자 아이디 에러
-
-  constructor(private http: HttpService) {}
 
   signin(code, pw) {
     if (this.focus(code, null) && this.focus(pw, null)) {

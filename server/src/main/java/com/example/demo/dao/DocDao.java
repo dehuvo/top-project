@@ -19,10 +19,10 @@ public interface DocDao {
 	
 	public DocAppr findByUpinfo(int deptId);
 	
-	@Insert("insert into doc(title ,body , author) values(#{title}, #{body}, #{author})")
+	@Insert("insert into doc(title,body,author,publish) values(#{title},#{body},#{author},#{publish})")
 	@SelectKey(statement="select LAST_INSERT_ID()", before=false, keyProperty="id", resultType=Integer.class)
 	public int insert(Doc doc);
-	
+
 	@Select("select body from doc where id=#{id}")
 	public String getBody(int id);
 	

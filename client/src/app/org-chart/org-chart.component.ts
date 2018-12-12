@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../http.service';
+import { EmpDeptHttpService } from '../emp-dept-http.service';
 import { Emp, Dept } from '../emp-dept.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { Emp, Dept } from '../emp-dept.model';
   styleUrls: ['./org-chart.component.css']
 })
 export class OrgChartComponent implements OnInit {
-  constructor(private http: HttpService) {}
+  constructor(private http: EmpDeptHttpService) {}
 
   manager: boolean;
   depts: Dept[];      // 조직도 root
