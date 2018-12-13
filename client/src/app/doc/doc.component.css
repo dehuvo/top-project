@@ -55,15 +55,15 @@ table{
   white-space: pre;
 }
 tr:hover {
-  background-color: #eee;
+  background-color: #f8f8f8;
   cursor: pointer;
 }
-.selected {
-  background-color: #ddd;
+.approval {
+  text-align: left;
 }
-.new-doc {
-  display: none;
+.approval tr > :nth-child(1) {
+  width: 14%
 }
-.doc-saved {
-  display: none;
+.approval tr > :nth-child(2) {
+  width: 15%
 }
