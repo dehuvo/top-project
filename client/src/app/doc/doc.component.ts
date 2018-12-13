@@ -11,50 +11,43 @@ import { DocHttpService} from './doc-http.service';
 export class DocComponent implements OnInit {
   constructor(private docHttp: DocHttpService) {}
 
-  user: Emp;            // 로그인한 사용자
-  count: number;        // 전체 줄 수
-  skip: number;         // 처음부터 건너뛸 줄 수
-  off: number;          // skip % UNIT
-  skips: number[];      // 한 블럭의 건너뛸 줄 수 배열
-  docs: Doc[];
-  doc: Doc;
-  approvals: Approval[];
-  viewList = false;
-  editing = false;
-  aIndex: number;
+  user: Emp;              // 로그인한 사용자
+  docs: Doc[];            // 문서 목록
+  doc: Doc;               // 선택한 문서
+  approvals: Approval[];  // 결재선
+  aIndex: number;         // 결재선 인덱스
+  viewList: boolean;      // 목록 보기
+  editing: boolean;       // 작성/수정
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
-    this.getList(0);
+    this.getList();
   }
 
-  private gotoList() {
-    this.getList(this.skip);
-  }
-
-  private getList(skip: number) {
+  // 목록 보기
+  private getList() {
     this.docHttp.getList(this.user.id).subscribe(docs => {
       this.docs = docs;
       this.viewList = true;
     });
   }
 
+  // 새 문서 작성
   private newDoc() {
     this.docHttp.getApprovals(this.user.deptId).subscribe(approvals => {
       this.approvals = approvals;
       this.doc = {
-        author: this.user.id,
-        name: this.user.name,
-        deptId: this.user.deptId,
-        dept: this.user.deptName,
-        count: approvals.length,
-        title: "", body: "",
+        author: this.user.id,     name: this.user.name,      // 작성자
+        deptId: this.user.deptId, dept: this.user.deptName,  // 작성 부서
+        count: approvals.length,  // 결재선 길이
+        title: "", body: "",      // 제목, 본문
       } as Doc;
       this.viewList = false;
       this.editing = true;
     });
   }
 
+  // 문서 보기/편집
   private get(doc: Doc) {
     this.docHttp.get(doc.id).subscribe(data => {
       this.doc = doc;
@@ -76,6 +69,7 @@ export class DocComponent implements OnInit {
     });
   }
 
+  // 문서 저장/상신
   private save(title, body, publish, stat) {
     this.doc.title   = title.value;
     this.doc.body    = body.value;
@@ -84,13 +78,15 @@ export class DocComponent implements OnInit {
       this.doc.stat = stat;
     }
     const f = this.doc.id? "update": "insert";
-    this.docHttp[f](this.doc).subscribe(() => this.gotoList());
+    this.docHttp[f](this.doc).subscribe(() => this.getList());
   }
 
+  // 문서 삭제
   private delete() {
-    this.docHttp.delete(this.doc.id).subscribe(() => this.gotoList());
+    this.docHttp.delete(this.doc.id).subscribe(() => this.getList());
   }
 
+  // 승인/반려
   private approve(stat, memo) {
     const i = this.aIndex;          // 이 결재 인덱스
     const as = this.doc.approvals;  // 결재선
@@ -103,6 +99,6 @@ export class DocComponent implements OnInit {
     }
     as[i].stat = stat;
     as[i].memo = memo;
-    this.docHttp.approve([as[i], more]).subscribe(() => this.gotoList());
+    this.docHttp.approve([as[i], more]).subscribe(() => this.getList());
   }
 }

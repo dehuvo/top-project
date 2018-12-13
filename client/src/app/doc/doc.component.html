@@ -41,7 +41,7 @@
       <div class="form-group">
         <div class="col-lg-2"></div>
         <div class="col-lg-10 text-right">
-          <a class="btn btn-default btn-sm" (click)="gotoList()">취소</a>&nbsp;
+          <a class="btn btn-default btn-sm" (click)="getList()">취소</a>&nbsp;
           <button class="btn btn-primary btn-sm"
                 (click)="save(title, body, publish, 0)">저장</button>&nbsp;
           <button class="btn btn-primary btn-sm" (click)="save(title, body, publish, 2)">상신</button>
@@ -104,7 +104,7 @@
         <tr>
           <th>작성부서</th>
           <th>작성자</th>
-          <th style="width:50%">제목</th>
+          <th style="width:50%; text-align:left;">제목</th>
           <th>작성일시</th>
           <th>상태</th>
         </tr>
