@@ -65,5 +65,9 @@ tr:hover {
   width: 14%
 }
 .approval tr > :nth-child(2) {
-  width: 15%
+  width: 17%
+}
+textarea, input {
+  font-family: "Malgun Gothic";
+  font-size: 16px;
 }

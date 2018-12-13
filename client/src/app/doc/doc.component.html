@@ -47,12 +47,22 @@
       </div>
       <div class="form-group" *ngIf="doc.approvals && doc.approvals[0].stat">
         <label class="col-lg-2 control-label">결재선</label>
-        <div class="col-lg-10 textLeft">
+        <!-- <div class="col-lg-10 textLeft">
           <p *ngFor="let a of doc.approvals">
             {{a.name}}({{a.dept}}) &nbsp;
             {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}
             &nbsp; {{a.memo? "\"" + a.memo + "\"": ""}}
           </p>
+        </div> -->
+        <div class="col-lg-10">
+          <table class="approval">
+            <tr *ngFor="let a of doc.approvals">
+              <td>{{a.name}}({{a.dept}})</td>
+              <td>{{a.ts|date:'MM-dd HH:mm'}} &nbsp;
+              {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}</td>
+              <td>{{a.memo}}</td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="form-group">
