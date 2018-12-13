@@ -25,7 +25,7 @@ public class EmpService {
 
 	public int insert(Emp emp) {
 		int rowsAffected = dao.insert(emp, encrypt(emp.getPw()));
-		return rowsAffected == 1 ? emp.getId() : 0;
+		return rowsAffected == 1? emp.getId(): 0;
 	}
 
 	public int update(Emp emp) {

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Note {
 	private int id;
-	private String title;
-	private String body;
-	private int author;
-	private String name;
-	private String code;
+	private String title;  // 제목
+	private String body;   // 본문
+	private int author;    // 글쓴이 id
+	private String name;   // 글쓴이 이름
+	private String code;   // 글쓴이 별명
 	private String ts;
 }

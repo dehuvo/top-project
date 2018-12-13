@@ -45,7 +45,7 @@ create table approval (
   id int not null auto_increment primary key comment '승인번호',
   doc_id int not null comment '문서번호',
   approver int not null comment '결재자',
-  stat int not null default 0 comment '결재여부', -- 0=저장 1=반려 2=상신 3=결재
+  stat int not null default 0 comment '결재여부', -- 0=저장 1=반려 2=대기 3=승인
   memo varchar(1000) null comment '비고(반려사유)',
   ts datetime default current_timestamp on update current_timestamp comment '수정일자',  
   foreign key(doc_id) references doc(id) on update cascade,

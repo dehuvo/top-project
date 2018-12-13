@@ -13,7 +13,7 @@ public class NoteService {
 	
 	public int insert(Note note) {
 		int rowsAffected = dao.insert(note);
-		return rowsAffected == 1 ? note.getId() : 0;
+		return rowsAffected == 1? note.getId(): 0;
 	}
 	
 	public Object[] getList(int skip, int count) {

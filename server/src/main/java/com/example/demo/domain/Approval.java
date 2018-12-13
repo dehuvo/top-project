@@ -15,7 +15,7 @@ public class Approval {
 	private int approver;  // 결재자 id
 	private String name;   // 결재자 이름
 	private String dept;   // 결재자 부서 이름
-	private int stat;      // 상태: 0=저장 1=반려 2=상신 3=결재
-	private String memo;   // 반려 사유 등 메모
+	private int stat;      // 상태: 0=저장 1=반려 2=대기 3=승인
+	private String memo;   // 반려 사유, 결재 의견
 	private Date ts;
 }

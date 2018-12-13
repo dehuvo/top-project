@@ -11,9 +11,7 @@ import com.example.demo.domain.Approval;
 
 @Mapper
 public interface ApprovalDao {
-//	public List<Approval> findAll();
-	
-	@Insert("insert into approval(doc_id, approver) values (#{docId}, #{approver})")
+	@Insert("insert into approval(doc_id,approver,stat) values (#{docId},#{approver},#{stat})")
 	@SelectKey(statement="select LAST_INSERT_ID()", before=false, keyProperty="id", resultType=Integer.class)
 	public int insert(Approval approval);
 	

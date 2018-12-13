@@ -16,9 +16,11 @@ public class Doc {
 	private String body;               // 본문
 	private boolean publish;           // 공지 여부
 	private int author;                // 기안자 id
+	private int deptId;                // 기안자 부서 id
 	private String name;               // 기안자 이름
 	private String dept;               // 기안자 부서 이름
+	private int count;                 // 결재선 길이
 	private List<Approval> approvals;  // 결재선
-	private String stat;               // 상태
+	private int stat;                  // 상태: 1=작성중 2=결재중 3=결재완료
 	private Date ts;
 }

@@ -76,11 +76,8 @@ export class NoteComponent implements OnInit {
   // 저장
   private save(title, body) {
     if (this.focus(title, "title") && this.focus(body, "body")) {
-      if (this.note.id) {
-        this.noteHttp.update(this.note).subscribe(() => this.gotoList());
-      } else {
-        this.noteHttp.insert(this.note).subscribe(() => this.gotoList());
-      }
+      const f = this.note.id? "update": "insert";
+      this.noteHttp[f](this.note).subscribe(() => this.gotoList());
     }
   }
 

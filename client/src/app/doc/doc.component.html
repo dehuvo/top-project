@@ -1,28 +1,28 @@
 <!-- 문서 작성/수정 -->
 <div *ngIf="!viewList && editing && doc">
-  <h4 class="sub-header">※ 결재상신</h4>
+  <h4 class="sub-header">※ 문서 작성/수정/상신</h4>
   <form class="form-horizontal">
     <div class="well bs-component controls control-group">
       <div class="form-group">
         <label class="col-lg-2 control-label">전결</label>
         <div class="col-lg-10">
-          <label class="radio-label" *ngFor="let a of doc.approvals; index as i">
+          <label class="radio-label" *ngFor="let a of approvals; index as i">
             &nbsp; <input class="radioBtn" type="radio" name="appr" [value]="i"
-            [checked]="i == aCount - 1" (click)="aCount = i + 1">
+            [checked]="i == doc.count - 1" (click)="doc.count = i + 1">
             &nbsp;{{a.name}} ({{a.dept}}) &nbsp; &nbsp; &nbsp;
           </label>
         </div>
       </div>
-      <!-- <div class="form-group" [class.doc-saved]="!doc.id">
+      <div class="form-group" *ngIf="doc.approvals && doc.approvals[0].stat">
         <label class="col-lg-2 control-label">결재선</label>
-        <div *ngIf="doc.id" class="col-lg-10">
-          <p *ngFor="let appr of doc.approvals">
-            {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
-            {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
-            &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
+        <div class="col-lg-10 textLeft">
+          <p *ngFor="let a of doc.approvals">
+            {{a.name}}({{a.dept}})<span class="apprSpan"> &nbsp;
+            {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}
+            &nbsp; {{a.memo? "\"" + a.memo + "\"": ""}}</span>
           </p>
         </div>
-      </div> -->
+      </div>
       <div class="form-group">
         <label class="col-lg-2 control-label">제목</label>
         <div class="col-lg-9">
@@ -41,7 +41,7 @@
       <div class="form-group">
         <div class="col-lg-2"></div>
         <div class="col-lg-10 text-right">
-          <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>&nbsp;
+          <a class="btn btn-default btn-sm" (click)="gotoList()">취소</a>&nbsp;
           <button class="btn btn-primary btn-sm"
                 (click)="save(title, body, publish, 0)">저장</button>&nbsp;
           <button class="btn btn-primary btn-sm" (click)="save(title, body, publish, 2)">상신</button>
@@ -51,43 +51,43 @@
   </form>
 </div>
 
-<!-- 문서 보기/결재/반려 -->
+<!-- 문서 보기  -- 승인/반려 -->
 <div *ngIf="!viewList && !editing && doc">
-  <h4 class="sub-header">※ 결재상신 - 상세보기</h4>
+  <h4 class="sub-header">※ 문서 보기</h4>
   <table class="table table-bordered table-responsive">
     <tr>
       <th style="width:10%">작성자</th>
       <td class="textLeft">{{doc.name}}({{doc.dept}})</td>
       <th style="width:10%">작성일시</th>
-      <td class="textLeft">{{doc.ts | date:'yyyy년 M월 d일 H시 m분'}}</td>
+      <td class="textLeft">{{doc.ts | date:'yyyy년 M월 d일 &nbsp; H시 m분'}}</td>
       <td><a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a></td>
     </tr>
     <tr>
       <th>결재선</th>
       <td class="textLeft" colspan="4">
-        <p *ngFor="let appr of doc.approvals">
-          {{appr.name}}({{appr.dept}})<span class="apprSpan"> &nbsp;
-          {{appr.stat==0?'[작성 중]': appr.stat==1? '[반려]': appr.stat==2? '[결재 중]': ''}}
-          &nbsp; {{appr.memo? "\"" + appr.memo + "\"": ""}}</span>
+        <p *ngFor="let a of doc.approvals">
+          {{a.name}}({{a.dept}})<span class="apprSpan"> &nbsp;
+          {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}
+          &nbsp; {{a.memo? "\"" + a.memo + "\"": ""}}</span>
         </p>
       </td>
     </tr>
     <tr style="text-align:left">
-      <th>제목</th><td class="textLeft">{{doc.title}} &nbsp; {{doc.publish? "[공지]": ""}}</td>
+      <th>제목</th><td colspan="4" class="textLeft">{{doc.publish? "[공지] &nbsp; &nbsp;": ""}}{{doc.title}}</td>
     </tr>
     <tr style="text-align:left">
-      <th>내용</th><td class="textLeft">{{doc.body}}</td>
+      <th>내용</th><td colspan="4" class="textLeft textArea">{{doc.body}}</td>
     </tr>
   </table>
-  <form *ngIf="approvable" class="form-horizontal well control-group">
+  <form *ngIf="aIndex &lt; doc.approvals.length" class="form-horizontal well control-group">
     <div class="form-group">
       <label class="col-lg-1 control-label">메모</label>
       <div class="col-lg-9">
-        <input type="text" class="form-control" #memo>
+        <input type="text" class="form-control" [value]="doc.approvals[aIndex].memo" #memo>
       </div>
       <div class="col-lg-2 text-right">
-        <a class="btn btn-primary btn-sm" (click)="approve(doc.id)">승인</a>&nbsp;
-        <a class="btn btn-success btn-sm" (click)="back()">반려</a>&nbsp;
+        <a class="btn btn-primary btn-sm" (click)="approve(3, memo.value)">승인</a>&nbsp;
+        <a class="btn btn-success btn-sm" (click)="approve(1, memo.value)">반려</a>&nbsp;
       </div>
     </div>
   </form>
@@ -96,7 +96,7 @@
 <!-- 문서 목록 -->
 <div *ngIf="viewList">
   <p class="text-right">
-    <a class="btn btn-success btn-sm" (click)="newDoc()">결재등록</a>
+    <a class="btn btn-success btn-sm" (click)="newDoc()">문서 작성</a>
   </p>
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -117,22 +117,10 @@
           <td>{{doc.ts|date:'yyyy-MM-dd HH:mm'}}</td>
           <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": ""}}</td>
         </tr>
-        <tr *ngIf="!count">
+        <tr *ngIf="!docs.length">
           <td colspan="5" class="fontGray">작성한 결재문서가 없습니다.</td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="center">
-      <div  *ngIf="UNIT &lt;= skip" class="pagination"><a
-           (click)="getList(0)">&#x25cf;</a></div>
-      <div  *ngIf="UNIT * 2 &lt;= skip" class="pagination"><a
-           (click)="getList(skip - off - ROWS)">&#x25c0;</a></div>
-      <div *ngFor="let s of skips; index as i" class="pagination"><a
-           (click)="getList(s)" [class.selected]="i == off/ROWS">{{count - s}}</a></div>
-      <div  *ngIf="skip - off + UNIT * 2 &lt; count" class="pagination"><a
-           (click)="getList(skip - off + UNIT)">&#x25b6;</a></div>
-      <div  *ngIf="skip - off + UNIT &lt; count" class="pagination"><a
-           (click)="getList((count - 1) - (count - 1) % ROWS)">&#x25cf;</a></div>
-    </div> -->
   </div>
 </div>

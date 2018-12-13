@@ -5,8 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { Doc, Approval } from './doc.model';
 
-const URL = "http://" + window.location.hostname + ":8080/docs/";
-const URL_A = "http://" + window.location.hostname + ":8080/appr/";
+const URL = "http://" + window.location.hostname + ":8080/doc/";
 
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,60 +13,40 @@ const HTTP_OPTIONS = {
 
 @Injectable({providedIn: 'root'})
 export class DocHttpService {
-
   constructor(private http: HttpClient) {}
 
-  // 결재상신 리스트 조회하기
-  // param : id(세션id), 0(결재여부,상신완료상태)
-  getList(id: number, skip: number, count: number): Observable<any[]> {
-    return this.http.post<number[]>(URL+'range', [id, skip, count], HTTP_OPTIONS).pipe(
-      catchError(this.handleError<any>('myDocList'))
-    );
+  // 문서 리스트 조회 (사용자 id)
+  getList(id: number): Observable<Doc[]> {
+    return this.http.get<Doc[]>(URL + 'list/' + id);
   }
 
-  getApprovals(deptId: number) {
-    return this.http.get<Approval[]>(URL + "appr/" + deptId);
-  }
-
-  // 결재승인 리스트 조회하기
-  docIngList(id:number, stat:number): Observable<Doc[]> {
-    return this.http.post<Doc[]>(URL, [id,stat], HTTP_OPTIONS).pipe(
-      catchError(this.handleError<any>('docIngList'))
-    );
-  }
-
-  getDetail(id): Observable<Doc> {
-    return this.http.get<Doc>(URL + id);
-  }
-
+  // 문서 본문과 결재선 조회 (문서 id)
   get(id): Observable<any[]> {
     return this.http.get<any[]>(URL + id);
   }
 
+  // 결재선 배열 찾기 (문서 작성 부서 id)
+  getApprovals(deptId: number) {
+    return this.http.get<Approval[]>(URL + "a/" + deptId);
+  }
+
+  // 승인/반려 (승인/반려 결재자, 전후 결재자 또는 null)
+  approve(as: Approval[]): Observable<any> {
+    return this.http.patch<Approval[]>(URL, as, HTTP_OPTIONS);
+  }
+
+  // 새 문서 저장/상신
   insert(doc: Doc): Observable<any> {
     return this.http.post<Doc>(URL, doc, HTTP_OPTIONS);
   }
 
-  inserts(a: Approval[]): Observable<any> {
-    return this.http.post<Approval[]>(URL + "a", a, HTTP_OPTIONS);
-  }
-
+  // 문서 수정 저장/상신
   update(doc: Doc): Observable<any> {
     return this.http.put<Doc>(URL, doc, HTTP_OPTIONS);
   }
 
-  updateAppr(a: Approval): Observable<any> {
-    return this.http.put<Approval>(URL_A, a, HTTP_OPTIONS);
-  }
-
   delete(id: number): Observable<any> {
     return this.http.delete(URL + id).pipe(
-      catchError(this.handleError<any>('delete'))
-    );
-  }
-
-  deleteAppr(id: number): Observable<any> {
-    return this.http.delete(URL_A + id).pipe(
       catchError(this.handleError<any>('delete'))
     );
   }

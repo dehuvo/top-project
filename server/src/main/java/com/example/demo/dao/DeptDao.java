@@ -32,7 +32,4 @@ public interface DeptDao {
 	
 	@Select("select name from dept where id=#{id}")
 	public String getName(int id);
-	
-	@Select("select count(*) from dept where and valid=true")
-	public int count();
 }

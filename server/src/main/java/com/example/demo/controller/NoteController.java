@@ -28,19 +28,14 @@ public class NoteController {
 	@Autowired
 	private NoteService service;
 	
-	@PostMapping("/list")
+	@PostMapping("/list")  // 글 목록 조회 (건너뜀, 찾는 수)
 	public Object getList(@RequestBody int[] range) {
 		return response(service.getList(range[0], range[1]));
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}")  // 글 읽기
 	public Object get(@PathVariable int id) {
 		return response(dao.get(id));
-	}
-
-	@DeleteMapping("/{id}")
-	public Object delete(@PathVariable int id) {
-		return response(dao.delete(id), HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping
@@ -52,4 +47,9 @@ public class NoteController {
 	public Object update(@RequestBody Note note) {
 		return response(dao.update(note), HttpStatus.CONFLICT);
 	}	
+
+	@DeleteMapping("/{id}")
+	public Object delete(@PathVariable int id) {
+		return response(dao.delete(id), HttpStatus.NOT_FOUND);
+	}
 }

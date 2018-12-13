@@ -24,79 +24,105 @@ public class DocService {
 	@Autowired
 	DeptDao deptDao;
 
-	public int delete(int id) {
-		dao.deleteAppr(id);
-		return dao.delete(id);
-	}
-
-	public int insert(Doc doc, int approvalCount, int stat) {
-		if (dao.insert(doc) == 1) {
-			int id = doc.getId();
-			List<Approval> list = findApprovals(id);
-			if (approvalCount < list.size()) {
-				list = list.subList(0, approvalCount);
-			}
-			if (0 < stat) {
-				list.get(0).setStat(stat);
-			}
-			for (Approval a: list) {
-				if (approvalDao.insert(a) == 0) return 0;
-			}
-			return 1;
-		}
-		return 0;
-	}
-
-	public int update(Doc doc, int approvalCount, int stat) {
-		if (dao.update(doc) == 1) {
-			int id = doc.getId();
-			List<Approval> list = doc.getApprovals();
-			int size = list.size();
-			for (int i = approvalCount; i < size; i++) {
-				approvalDao.delete(list.get(i).getId());
-			}
-			if (size < approvalCount) {
-				List<Approval> list0 = findApprovals(id);
-				for (int i = size; i < approvalCount; i++) {
-					approvalDao.insert(list0.get(i));
-				}
-			}
-			if (stat != list.get(0).getStat()) {
-				list.get(0).setStat(stat);
-				approvalDao.update(list.get(0));
-			}
-			return 1;
-		}
-		return 0;
-	}
-
-	public int inserts(Approval[] approvals) {
-		for (Approval a: approvals) {
-			approvalDao.insert(a);
-		}
-		return 1;
-	}
-
-	public Object[] find(int id, int skip, int count) {
-		List<Doc> list = dao.find(id, 0, 100);
-		return list.size() == 0 ?  new Object[] { 0, new ArrayList<Doc>() } :
-		                           new Object[] { list.size(), list };
-	}
-	
-	public Object[] findOne(int id) {
+	/**
+	 * 문서 본문과 결재선을 찾는다
+	 * @param id  문서 id
+	 * @return [본문, 결재선]
+	 */
+	public Object[] findBodyApprovals(int id) {
 		return new Object[] { dao.getBody(id), approvalDao.getList(id) };
 	}
 	
+	/**
+	 * 기안 부서로 결재선을 찾는다
+	 * @param deptId  기안 부서 id
+	 * @return  결재선 목록
+	 */
 	public List<Approval> findApprovals(int deptId) {
 		List<Approval> list = new ArrayList<>();
 		for (Dept dept; 0 < deptId; deptId = dept.getUpId()) {
 			dept = deptDao.find(deptId);
 			Approval a = new Approval();
-			a.setApprover(dept.getChief());
-			a.setName(dept.getChiefName());
-			a.setDept(dept.getName());
+			a.setApprover(dept.getChief());  // 결재자 id
+			a.setName(dept.getChiefName());  // 결재자 이름
+			a.setDept(dept.getName());       // 결재자 부서 이름
 			list.add(a);			
 		}
 		return list;
+	}
+
+	/**
+	 * 새 문서 저장/상신
+	 * @param doc 새 문서
+	 * @return 1=성공 0=실패
+	 */
+	public int insert(Doc doc) {
+		if (dao.insert(doc) == 1) {
+			List<Approval> aList = findApprovals(doc.getDeptId());
+			aList.get(0).setStat(doc.getStat());
+			int size = Math.min(aList.size(), doc.getCount());
+			int id = doc.getId();
+			for (int i = 0; i < size; i++) {
+				aList.get(i).setDocId(id);
+				approvalDao.insert(aList.get(i));
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * 수정한 문서 저장/상신 
+	 * @param doc  수정한 문서
+	 * @return  1=성공 0=실패
+	 */
+	public int update(Doc doc) {
+		if (dao.update(doc) == 1) {
+			List<Approval> aList = doc.getApprovals();
+			int size = aList.size();     // 변경 전 결재선 길이
+			int count = doc.getCount();  // 변경 후 결재선 길이
+			for (int i = count; i < size; i++) {
+				approvalDao.delete(aList.get(i).getId());
+			}
+			if (size < count) {
+				List<Approval> aList0 = findApprovals(doc.getDeptId());
+				count = Math.min(count, aList0.size());
+				int id = doc.getId();
+				for (int i = size; i < count; i++) {
+					aList0.get(i).setDocId(id);
+					approvalDao.insert(aList0.get(i));
+				}
+			}
+			Approval first = aList.get(0);  // 첫 결재자
+			if (doc.getStat() == 2 && first.getStat() != 2) {
+				first.setStat(2);           // 상신
+				approvalDao.update(first);
+			}
+			return 1;
+		}
+		return 0;
+	}
+	
+	/**
+	 * 승인/반려
+	 * @param aList [승인/반려 결재자, 그 전후 결재자]
+	 * @return  1=성공 0=실패  
+	 */
+	public int approve(Approval[] aList) {
+		approvalDao.update(aList[0]);      // 승인/반려 업데이트
+		if (aList[1] != null) {
+			approvalDao.update(aList[1]);  // 그 전/후  업데이트 
+		}
+		return 1;
+	}
+
+	/**
+	 * 문서 삭제
+	 * @param id  문서 id
+	 * @return  1=성공 0=실패 
+	 */
+	public int delete(int id) {
+		dao.deleteAppr(id);     // 결재선 삭제
+		return dao.delete(id);  // 문서 삭제
 	}
 }

@@ -32,9 +32,6 @@ public interface EmpDao {
 	
 	public List<Emp> findMembers(int id);
 	
-	@Select("select count(*) from emp where valid = true")
-	public int count();
-	
 	public Emp findByCode(String code);
 	
 	@Select("select pw from emp where code = #{code}")
