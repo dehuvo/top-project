@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="com.example.demo.dao.ApprovalDao">
 	<select id="getList" resultType="Approval">
         select a.id, a.doc_id, a.approver, e.name, d.name as dept, a.stat, a.memo, a.ts
           from approval a join emp e on e.id = a.approver
                           join dept d on d.chief = a.approver
          where a.doc_id = #{docId}
-      order by a.id
+         order by a.id
 	</select>
-	
+
 	<update id="update" parameterType="Approval">
-		update approval 
-		<set>			
+		update approval
+		<set>
 			<if test="stat">stat = #{stat},</if>
 			<if test="memo">memo=#{memo}</if>
 		</set>
