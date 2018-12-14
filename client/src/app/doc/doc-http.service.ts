@@ -16,13 +16,13 @@ export class DocHttpService {
   constructor(private http: HttpClient) {}
 
   // 문서 리스트 조회 (사용자 id)
-  getList(id: number): Observable<Doc[]> {
-    return this.http.get<Doc[]>(URL + 'list/' + id);
+  getList(userId: number): Observable<Doc[]> {
+    return this.http.get<Doc[]>(URL + 'list/' + userId);
   }
 
   // 문서 본문과 결재선 조회 (문서 id)
-  get(id): Observable<any[]> {
-    return this.http.get<any[]>(URL + id);
+  get(docId): Observable<any[]> {
+    return this.http.get<any[]>(URL + docId);
   }
 
   // 결재선 배열 찾기 (문서 작성 부서 id)
@@ -31,8 +31,8 @@ export class DocHttpService {
   }
 
   // 승인/반려 (승인/반려 결재자, 전후 결재자 또는 null)
-  approve(as: Approval[]): Observable<any> {
-    return this.http.patch<Approval[]>(URL, as, HTTP_OPTIONS);
+  approve(list: Approval[]): Observable<any> {
+    return this.http.patch<Approval[]>(URL, list, HTTP_OPTIONS);
   }
 
   // 새 문서 저장/상신
@@ -45,8 +45,8 @@ export class DocHttpService {
     return this.http.put<Doc>(URL, doc, HTTP_OPTIONS);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(URL + id).pipe(
+  delete(docId: number): Observable<any> {
+    return this.http.delete(URL + docId).pipe(
       catchError(this.handleError<any>('delete'))
     );
   }

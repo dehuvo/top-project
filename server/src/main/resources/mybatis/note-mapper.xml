@@ -4,15 +4,15 @@
 <mapper namespace="com.example.demo.dao.NoteDao">
 
 	<select id="getList" resultType="Note">
-		select n.id, title, author, e.name, e.code, ts
-		from note n left join emp e on e.id = n.author
-		order by ts desc, n.id desc limit #{skip}, #{count}
+        select n.id, title, author, e.name, e.code, ts
+          from note n join emp e on e.id = n.author
+      order by ts desc, n.id desc limit #{skip}, #{count}
 	</select>
 
 	<select id="get" resultType="Note">
-		select n.id, title, body, author, e.name, ts
-		from note n left join emp e on e.id = n.author
-		where n.id = #{id}
+       select n.id, title, body, author, e.name, ts
+         from note n join emp e on e.id = n.author
+        where n.id = #{id}
 	</select>
 
 	<update id="update" parameterType="Note">

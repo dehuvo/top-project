@@ -19,7 +19,7 @@ public interface DocDao {
 	@Select("select body from doc where id=#{id}")
 	public String getBody(int id);
 	
-	public List<Doc> getList(int empId);
+	public List<Doc> getList(int userId);
 	
 	public int update(Doc doc);
 	

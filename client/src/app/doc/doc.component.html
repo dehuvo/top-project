@@ -20,7 +20,7 @@
           <td>{{doc.name}}</td>
           <td class="textLeft">{{doc.title}}</td>
           <td>{{doc.ts|date:'yyyy-MM-dd HH:mm'}}</td>
-          <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": ""}}</td>
+          <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": "승인"}}</td>
         </tr>
         <tr *ngIf="!docs.length">
           <td colspan="5" class="fontGray">작성한 결재문서가 없습니다.</td>
@@ -47,13 +47,6 @@
       </div>
       <div class="form-group" *ngIf="doc.approvals && doc.approvals[0].stat">
         <label class="col-lg-2 control-label">결재선</label>
-        <!-- <div class="col-lg-10 textLeft">
-          <p *ngFor="let a of doc.approvals">
-            {{a.name}}({{a.dept}}) &nbsp;
-            {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}
-            &nbsp; {{a.memo? "\"" + a.memo + "\"": ""}}
-          </p>
-        </div> -->
         <div class="col-lg-10">
           <table class="approval">
             <tr *ngFor="let a of doc.approvals">
@@ -70,9 +63,9 @@
         <div class="col-lg-9">
           <input type="text" class="form-control" [value]="doc.title" #title>
         </div>
-        <div class="col-lg-1">
-          <input type="checkbox" [checked]="doc.publish" #publish> 공지
-        </div>
+        <label class="col-lg-1">
+          <input type="checkbox" [checked]="doc.publish" #publish>&nbsp; 공지
+        </label>
       </div>
       <div class="form-group">
         <label for="textArea" class="col-lg-2 control-label">내용</label>

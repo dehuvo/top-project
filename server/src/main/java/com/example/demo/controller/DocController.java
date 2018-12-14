@@ -30,9 +30,9 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	@GetMapping("/list/{empId}")  // 목록 보기
-	public Object getList(@PathVariable int empId) {
-		return response(dao.getList(empId));
+	@GetMapping("/list/{userId}")  // 목록 보기
+	public Object getList(@PathVariable int userId) {
+		return response(dao.getList(userId));
 	}
 	
 	@GetMapping("/{id}")  // 상세 보기

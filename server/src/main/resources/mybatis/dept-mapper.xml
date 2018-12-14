@@ -4,10 +4,10 @@
 <mapper namespace="com.example.demo.dao.DeptDao">
 
 	<select id="find" resultType="Dept">
-select d.id, d.name, d.chief, e.name chief_name, d.up_id, u.name up_name 
-  from dept d left join dept u on u.id = d.up_id
-              left join  emp e on e.id = d.chief
- where d.id = #{id}
+        select d.id, d.name, d.chief, e.name chief_name, d.up_id, u.name up_name 
+          from dept d left join dept u on u.id = d.up_id
+                      left join  emp e on e.id = d.chief
+         where d.id = #{id}
 	</select>
 
 	<update id="update" parameterType="Dept">

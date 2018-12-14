@@ -4,18 +4,24 @@
 
 <mapper namespace="com.example.demo.dao.DocDao">
 	<select id="getList" resultType="Doc">
-select c.id, c.author, d.name dept, e.name, c.title, c.publish, c.ts,
-       case when s.n = 3    then 3
-            when s.x &lt; 2 then 1
-                            else 2 end stat  
-  from doc c, emp e, dept d, approval a, (
-       select doc.id, min(stat) n, max(stat) x
-         from approval, doc
-        where doc_id = doc.id
-        group by doc_id) s
- where e.dept_id = d.id and c.author = e.id and c.id = a.doc_id and c.id = s.id
-   and (c.author = #{empId} or a.approver = #{empId} and 0 &lt; a.stat or c.publish = true and s.n = 3)
-	group by a.doc_id order by stat, c.id desc
+       select d.id, d.author, p.name dept, e.name, d.title, d.publish, d.ts,
+              case when s.i  =  3    then 3 -- 결재 완료
+                   when s.a in (0,1) then 1 -- 작성 중
+                                     else 2 -- 결재 중
+               end stat
+         from doc d join emp e on e.id = d.author
+                    join dept p on p.id = e.dept_id
+                    join approval a on a.doc_id = d.id
+                    join (
+                        select doc_id, min(stat) i, max(stat) a
+                          from approval join doc on doc.id = doc_id
+                      group by doc_id
+                    ) s on s.doc_id = d.id
+        where d.author = #{userId}                   -- 기안자
+           or a.approver = #{userId} and a.stat != 0 -- 결재자
+           or d.publish = true and s.i = 3           -- 공지
+     group by a.doc_id
+     order by stat, d.ts desc
 	</select>
 
 	<update id="update" parameterType="Doc">

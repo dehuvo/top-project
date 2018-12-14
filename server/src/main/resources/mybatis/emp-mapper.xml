@@ -4,21 +4,21 @@
 <mapper namespace="com.example.demo.dao.EmpDao">
 
 	<select id="findMembers" resultType="Emp">
-		select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name
-		from emp e left join dept d on d.id = e.dept_id
-		where e.valid = true and e.dept_id = #{id}
+        select e.id, d.id dept_id, e.name, e.code, phone, email, d.name dept_name
+          from emp e join dept d on d.id = e.dept_id
+         where e.valid = true and e.dept_id = #{id}
 	</select>
 
 	<select id="find" resultType="Emp">
-		select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
-		from emp e left join dept d on d.id = e.dept_id
-		where e.id = #{id}
+        select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
+          from emp e join dept d on d.id = e.dept_id
+         where e.id = #{id}
 	</select>
 	
 	<select id="findByCode" resultType="Emp">
-		select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
-		from emp e left join dept d on d.id = e.dept_id
-		where e.code = #{code}
+        select e.id, e.code, e.name, d.id dept_id, d.name dept_name ,phone, email
+          from emp e join dept d on d.id = e.dept_id
+         where e.code = #{code}
 	</select>
 
 	<update id="update" parameterType="map">

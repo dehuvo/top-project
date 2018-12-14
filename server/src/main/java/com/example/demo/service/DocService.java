@@ -42,11 +42,14 @@ public class DocService {
 		List<Approval> list = new ArrayList<>();
 		for (Dept dept; 0 < deptId; deptId = dept.getUpId()) {
 			dept = deptDao.find(deptId);
-			Approval a = new Approval();
-			a.setApprover(dept.getChief());  // 결재자 id
-			a.setName(dept.getChiefName());  // 결재자 이름
-			a.setDept(dept.getName());       // 결재자 부서 이름
-			list.add(a);			
+			int chief = dept.getChief();
+			if (0 < chief) {
+				Approval a = new Approval();
+				a.setApprover(chief);            // 결재자 id
+				a.setName(dept.getChiefName());  // 결재자 이름
+				a.setDept(dept.getName());       // 결재자 부서 이름
+				list.add(a);
+			}
 		}
 		return list;
 	}
