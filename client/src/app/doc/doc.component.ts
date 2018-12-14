@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DocHttpService} from './doc-http.service';
 import { Doc, Approval } from './doc.model';
 import { Emp } from '../emp-dept.model';
-import { DocHttpService} from './doc-http.service';
 
 @Component({
   selector: 'app-doc',
@@ -42,8 +42,8 @@ export class DocComponent implements OnInit {
         count: approvals.length,  // 결재선 길이
         title: "", body: "",      // 제목, 본문
       } as Doc;
-      this.viewList = false;
       this.editing = true;
+      this.viewList = false;
     });
   }
 
@@ -57,6 +57,7 @@ export class DocComponent implements OnInit {
       if (this.editing) {
         this.docHttp.getApprovals(this.user.deptId).subscribe(approvals => {
           this.approvals = approvals;
+          this.viewList = false;
         });
       } else {
         this.aIndex = 0;
@@ -64,8 +65,8 @@ export class DocComponent implements OnInit {
           if (a.stat == 2 && a.approver == this.user.id) break;
           this.aIndex++;
         }
+        this.viewList = false;
       }
-      this.viewList = false;
     });
   }
 

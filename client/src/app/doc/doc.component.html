@@ -103,8 +103,9 @@
         <table class="approval">
           <tr *ngFor="let a of doc.approvals">
             <td>{{a.name}}({{a.dept}})</td>
-            <td>{{a.ts|date:'MM-dd HH:mm'}} &nbsp;
+            <td *ngIf="a.stat">{{a.ts|date:'MM-dd HH:mm'}} &nbsp;
             {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}</td>
+            <td *ngIf="!a.stat"></td>
             <td>{{a.memo}}</td>
           </tr>
         </table>
