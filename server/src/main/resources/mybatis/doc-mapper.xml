@@ -22,6 +22,7 @@
            or d.publish = true and stat = 3          -- 공지
         group by a.doc_id
         order by stat, d.ts desc
+        <if test="rows">limit #{rows}</if>
 	</select>
 
 	<update id="update" parameterType="Doc">

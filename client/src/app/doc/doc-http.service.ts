@@ -11,13 +11,13 @@ const HTTP_OPTIONS = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-@Injectable({providedIn: 'root'})
+@Injectable({providedIn: "root"})
 export class DocHttpService {
   constructor(private http: HttpClient) {}
 
   // 문서 리스트 조회 (사용자 id)
-  getList(userId: number): Observable<Doc[]> {
-    return this.http.get<Doc[]>(URL + 'list/' + userId);
+  getList(userId: number, limit: number): Observable<Doc[]> {
+    return this.http.get<Doc[]>(URL + "list/" + userId + "/" + limit);
   }
 
   // 문서 본문과 결재선 조회 (문서 id)
@@ -47,11 +47,11 @@ export class DocHttpService {
 
   delete(docId: number): Observable<any> {
     return this.http.delete(URL + docId).pipe(
-      catchError(this.handleError<any>('delete'))
+      catchError(this.handleError<any>("delete"))
     );
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T> (operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
       console.log(`${operation} failed: ${error.message}`);

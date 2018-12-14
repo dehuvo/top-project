@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 
@@ -19,7 +20,7 @@ public interface DocDao {
 	@Select("select body from doc where id=#{id}")
 	public String getBody(int id);
 	
-	public List<Doc> getList(int userId);
+	public List<Doc> getList(@Param("userId") int userId, @Param("rows")int rows);
 	
 	public int update(Doc doc);
 	

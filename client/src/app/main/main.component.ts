@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     const user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
-    this.docHttp.getList(user.id).subscribe(data => this.docs = data);
+    this.docHttp.getList(user.id, 5).subscribe(data => this.docs = data);
     this.noteHttp.getList(0, 5).subscribe(data => this.notes = data[1]);
   }
 }

@@ -19,7 +19,7 @@
           <td>{{doc.dept}}</td>
           <td>{{doc.name}}</td>
           <td class="textLeft">{{doc.title}}</td>
-          <td>{{doc.ts|date:'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{doc.ts|date:"yyyy-MM-dd HH:mm"}}</td>
           <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": "승인"}}</td>
         </tr>
         <tr *ngIf="!docs.length">
@@ -51,8 +51,8 @@
           <table class="approval">
             <tr *ngFor="let a of doc.approvals">
               <td>{{a.name}}({{a.dept}})</td>
-              <td>{{a.ts|date:'MM-dd HH:mm'}} &nbsp;
-              {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}</td>
+              <td>{{a.ts|date:"MM-dd HH:mm"}} &nbsp;
+              {{a.stat == 1? "[반려]": a.stat == 2? "[대기]": a.stat == 3? "[승인]": ""}}</td>
               <td>{{a.memo}}</td>
             </tr>
           </table>
@@ -94,7 +94,7 @@
       <th style="width:10%">작성자</th>
       <td class="textLeft">{{doc.name}}({{doc.dept}})</td>
       <th style="width:10%">작성일시</th>
-      <td class="textLeft">{{doc.ts | date:'yyyy년 M월 d일 &nbsp; H시 m분'}}</td>
+      <td class="textLeft">{{doc.ts | date:"yyyy년 M월 d일 &nbsp; H시 m분"}}</td>
       <td><a class="btn btn-default btn-sm" (click)="getList(skip)">목록</a></td>
     </tr>
     <tr>
@@ -103,8 +103,8 @@
         <table class="approval">
           <tr *ngFor="let a of doc.approvals">
             <td>{{a.name}}({{a.dept}})</td>
-            <td *ngIf="a.stat">{{a.ts|date:'MM-dd HH:mm'}} &nbsp;
-            {{a.stat == 1? '[반려]': a.stat == 2? '[대기]': a.stat == 3? '[승인]': ''}}</td>
+            <td *ngIf="a.stat">{{a.ts|date:"MM-dd HH:mm"}} &nbsp;
+            {{a.stat == 1? "[반려]": a.stat == 2? "[대기]": a.stat == 3? "[승인]": ""}}</td>
             <td *ngIf="!a.stat"></td>
             <td>{{a.memo}}</td>
           </tr>

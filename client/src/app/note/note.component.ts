@@ -82,13 +82,14 @@ export class NoteComponent implements OnInit {
   }
 
   // 노드 값이 있으면 값을 넣고, 없으면 포커스 (노드, 필드 이름)
-  focus(node, field: string): boolean {
+  private focus(node, field: string): boolean {
     if (node.value) {
       this.note[field] = node.value;
       return true;
+    } else {
+      node.focus();
+      return false;
     }
-    node.focus();
-    return false;
   }
 
   // 취소

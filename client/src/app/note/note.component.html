@@ -4,22 +4,18 @@
     <a class="btn btn-success btn-sm" (click)="newNote()">글작성</a>
   </p>
   <table class="table table-bordered">
-    <thead>
-      <tr class="active">
-        <th class="col-lg-1">글번호</th>
-        <th class="col-lg-7">제목</th>
-        <th class="col-lg-2">작성자</th>
-        <th class="col-lg-2">등록일시</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let note of notes; index as i" (click)="get(note.id)">
-        <td>{{count - skip - i}}</td>
-        <td class="textLeft">{{note.title}}</td>
-        <td>{{note.name}}</td>
-        <td>{{note.ts|date:'yyyy-MM-dd HH:mm'}}</td>
-      </tr>
-    </tbody>
+    <tr class="active">
+      <th class="col-lg-1">글번호</th>
+      <th class="col-lg-7 textLeft">제목</th>
+      <th class="col-lg-2">작성자</th>
+      <th class="col-lg-2">등록일시</th>
+    </tr>
+    <tr *ngFor="let note of notes; index as i" (click)="get(note.id)">
+      <td>{{count - skip - i}}</td>
+      <td class="textLeft">{{note.title}}</td>
+      <td>{{note.name}}</td>
+      <td>{{note.ts|date:'yyyy-MM-dd HH:mm'}}</td>
+    </tr>
   </table>
   <div class="center">
     <div  *ngIf="UNIT &lt;= skip" class="pagination"><a
