@@ -5,20 +5,23 @@
 <mapper namespace="com.example.demo.dao.DocDao">
 	<select id="getList" resultType="Doc">
        select d.id, d.title, d.publish,
-              case when s.min  =  3    then 3 -- 결재 완료
-                   when s.max in (0,1) then 1 -- 작성 중
-                                       else 2 -- 결재 중
+              case when min(a.stat) = 3       then 3 -- 결재 완료
+                   when max(a.stat) in (0, 1) then 1 -- 작성 중
+                   when (select count(*)
+                           from approval
+                          where doc_id = d.id
+                            and approver = #{userId}
+                            and stat = 2) = 1 then 0 -- 내 결재
+                                              else 2 -- 결재 중
                end stat, d.author, e.name, e.dept_id, t.name dept, d.ts
-         from doc d join  emp e on e.id = d.author
+         from doc d join emp e on e.id = d.author
                     join dept t on t.id = e.dept_id
                     join approval a on a.doc_id = d.id
-                    join (
-                      select doc_id, min(stat) min, max(stat) max
-                        from approval
-                       group by doc_id
-                    ) s on s.doc_id = d.id
         where d.author = #{userId}                   -- 기안자
-           or a.approver = #{userId} and a.stat != 0 -- 결재자
+           or d.id in (select doc_id
+                         from approval
+                        where approver = #{userId}   -- 결재자
+                          and stat != 0)
            or d.publish = true and stat = 3          -- 공지
         group by a.doc_id
         order by stat, d.ts desc

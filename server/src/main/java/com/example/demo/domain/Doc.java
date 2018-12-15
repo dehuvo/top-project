@@ -21,6 +21,6 @@ public class Doc {
 	private String dept;               // 기안자 부서 이름
 	private List<Approval> approvals;  // 결재선
 	private int count;                 // 결재선 길이
-	private int stat;                  // 상태: 1=작성중 2=결재중 3=결재완료
+	private int stat;    // 상태: 0=내결재 1=작성중 2=결재중 3=결재완료
 	private Date ts;
 }

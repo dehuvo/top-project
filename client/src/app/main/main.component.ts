@@ -14,8 +14,9 @@ export class MainComponent implements OnInit {
   constructor(private docHttp: DocHttpService,
               private noteHttp: NoteHttpService) {}
 
-  notes: Note[];
+  STAT = ["내 결재", "작성 중", "결재 중", "승인"]; // 문서 상태
   docs: Doc[];
+  notes: Note[];
 
   ngOnInit() {
     const user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;

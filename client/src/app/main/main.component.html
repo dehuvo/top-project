@@ -16,7 +16,7 @@
           <td>{{doc.dept}}</td>
           <td class="textLeft"><p>{{doc.title}}</p></td>
           <td>{{doc.ts | date:'M월 d일'}}</td>
-          <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": ""}}</td>
+          <td>{{doc.publish && doc.stat == 3? "공지": STAT[doc.stat]}}</td>
         </tr>
       </tbody>
     </table>

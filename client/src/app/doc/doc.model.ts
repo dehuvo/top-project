@@ -9,7 +9,7 @@ export interface Doc {
   dept: string;           // 기안부서 이름
   count: number;          // 결재선 길이
   approvals: Approval[];  // 결재선
-  stat: number;           // 상태: 1=작성중 2= 결재중 3= 결재완료
+  stat: number;           // 상태: 0=내결재 1=작성중 2=결재중 3=결재완료
   ts: Date;
 }
 

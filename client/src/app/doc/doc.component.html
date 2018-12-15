@@ -20,7 +20,7 @@
           <td>{{doc.name}}</td>
           <td class="textLeft">{{doc.title}}</td>
           <td>{{doc.ts|date:"yyyy-MM-dd HH:mm"}}</td>
-          <td>{{doc.stat == 1? "작성 중": doc.stat == 2? "결재 중": doc.publish? "공지": "승인"}}</td>
+          <td>{{doc.publish && doc.stat == 3? "공지": STAT[doc.stat]}}</td>
         </tr>
         <tr *ngIf="!docs.length">
           <td colspan="5" class="fontGray">작성한 결재문서가 없습니다.</td>
@@ -51,8 +51,7 @@
           <table class="approval">
             <tr *ngFor="let a of doc.approvals">
               <td>{{a.name}}({{a.dept}})</td>
-              <td>{{a.ts|date:"MM-dd HH:mm"}} &nbsp;
-              {{a.stat == 1? "[반려]": a.stat == 2? "[대기]": a.stat == 3? "[승인]": ""}}</td>
+              <td>{{a.ts|date:"MM-dd HH:mm"}} &nbsp; {{A_STAT[a.stat]}}</td>
               <td>{{a.memo}}</td>
             </tr>
           </table>
@@ -77,9 +76,9 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-10 text-right">
           <a class="btn btn-default btn-sm" (click)="getList()">취소</a>&nbsp;
-          <button class="btn btn-primary btn-sm" (click)="save(title, body, publish, 0)">저장</button>&nbsp;
-          <button class="btn btn-success btn-sm" (click)="save(title, body, publish, 2)">상신</button>&nbsp;
-          <button class="btn btn-danger btn-sm" (click)="delete()">삭제</button>
+          <a class="btn btn-primary btn-sm" (click)="save(title, body, publish, 0)">저장</a>&nbsp;
+          <a class="btn btn-success btn-sm" (click)="save(title, body, publish, 2)">상신</a>&nbsp;
+          <a class="btn btn-danger btn-sm" (click)="delete()" *ngIf="doc.id">삭제</a>
         </div>
       </div>
     </div>
@@ -103,8 +102,7 @@
         <table class="approval">
           <tr *ngFor="let a of doc.approvals">
             <td>{{a.name}}({{a.dept}})</td>
-            <td *ngIf="a.stat">{{a.ts|date:"MM-dd HH:mm"}} &nbsp;
-            {{a.stat == 1? "[반려]": a.stat == 2? "[대기]": a.stat == 3? "[승인]": ""}}</td>
+            <td *ngIf="a.stat">{{a.ts|date:"MM-dd HH:mm"}} &nbsp;{{A_STAT[a.stat]}}</td>
             <td *ngIf="!a.stat"></td>
             <td>{{a.memo}}</td>
           </tr>

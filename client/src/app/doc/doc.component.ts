@@ -11,6 +11,8 @@ import { Emp } from '../emp-dept.model';
 export class DocComponent implements OnInit {
   constructor(private docHttp: DocHttpService) {}
 
+  STAT = ["내 결재", "작성 중", "결재 중", "승인"]; // 문서 상태
+  A_STAT = ["", "[반려]", "[대기]", "[승인]"];     // 결재 상태
   user: Emp;              // 로그인한 사용자
   docs: Doc[];            // 문서 목록
   doc: Doc;               // 선택한 문서
@@ -53,7 +55,7 @@ export class DocComponent implements OnInit {
       this.doc = doc;                              // 선택한 문서
       [this.doc.body, this.doc.approvals] = data;  // [본문, 결재선]
       this.doc.count = data[1].length;             // 결재선 길이
-      this.editing = this.doc.author == this.user.id && this.doc.stat < 2;
+      this.editing = this.doc.stat == 1 && this.doc.author == this.user.id;
       if (this.editing) {              // 작성중인가?
         this.docHttp.getApprovals(this.user.deptId).subscribe(approvals => {
           this.approvals = approvals;  // 전결 메뉴
