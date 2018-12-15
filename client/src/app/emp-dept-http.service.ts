@@ -58,7 +58,7 @@ export class EmpDeptHttpService {
   }
 
   getMembers(id: number): Observable<Emp[]> {
-    return this.http.get<Emp[]>(DEPT_URL + 'm/' + id);
+    return this.http.get<Emp[]>(DEPT_URL + id);
   }
 
   insertDept(dept: Dept): Observable<any> {

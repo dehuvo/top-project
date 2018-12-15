@@ -17,7 +17,7 @@ export class DocHttpService {
 
   // 문서 리스트 조회 (사용자 id)
   getList(userId: number, limit: number): Observable<Doc[]> {
-    return this.http.get<Doc[]>(URL + "list/" + userId + "/" + limit);
+    return this.http.get<Doc[]>(URL + userId + "/" + limit);
   }
 
   // 문서 본문과 결재선 조회 (문서 id)

@@ -28,7 +28,7 @@ public class NoteController {
 	@Autowired
 	private NoteService service;
 
-	@GetMapping("/list/{skip}/{count}")  // 글 목록 조회 (건너뜀, 찾는 수)
+	@GetMapping("/{skip}/{count}")  // 글 목록 조회 (건너뜀, 찾는 수)
 	public Object getList(@PathVariable int skip, @PathVariable int count) {
 		return response(service.getList(skip, count));
 	}

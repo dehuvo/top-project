@@ -30,7 +30,7 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	@GetMapping("/list/{userId}/{rows}")  // 목록 보기
+	@GetMapping("/{userId}/{rows}")  // 목록 보기
 	public Object getList(@PathVariable int userId, @PathVariable int rows) {
 		return response(dao.getList(userId, rows));
 	}

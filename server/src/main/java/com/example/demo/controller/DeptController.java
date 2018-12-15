@@ -38,7 +38,7 @@ public class DeptController {
 		return response(service.getNames());
 	}
 
-	@GetMapping("/m/{id}")
+	@GetMapping("/{id}")
 	public Object findMembers(@PathVariable int id) {
 		return response(service.findMembers(id));
 	}
