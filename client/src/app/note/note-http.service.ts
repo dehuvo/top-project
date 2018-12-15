@@ -15,7 +15,7 @@ export class NoteHttpService {
   constructor(private http: HttpClient) { }
 
   getList(skip: number, count: number): Observable<any[]> {
-    return this.http.post<any[]>(URL + "list", [skip, count], HTTP_OPTIONS);
+    return this.http.get<any[]>(URL +"list/"+ skip +"/"+ count, HTTP_OPTIONS);
   }
 
   get(id: number): Observable<Note> {

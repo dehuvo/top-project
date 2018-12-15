@@ -24,13 +24,13 @@ import com.example.demo.service.NoteService;
 public class NoteController {
 	@Autowired
 	private NoteDao dao;
-	
+
 	@Autowired
 	private NoteService service;
-	
-	@PostMapping("/list")  // 글 목록 조회 (건너뜀, 찾는 수)
-	public Object getList(@RequestBody int[] range) {
-		return response(service.getList(range[0], range[1]));
+
+	@GetMapping("/list/{skip}/{count}")  // 글 목록 조회 (건너뜀, 찾는 수)
+	public Object getList(@PathVariable int skip, @PathVariable int count) {
+		return response(service.getList(skip, count));
 	}
 
 	@GetMapping("/{id}")  // 글 읽기
@@ -39,14 +39,14 @@ public class NoteController {
 	}
 
 	@PostMapping
-	public Object insert(@RequestBody Note note) {		
+	public Object insert(@RequestBody Note note) {
 		return response(service.insert(note), HttpStatus.FOUND);
 	}
 
 	@PutMapping
 	public Object update(@RequestBody Note note) {
 		return response(dao.update(note), HttpStatus.CONFLICT);
-	}	
+	}
 
 	@DeleteMapping("/{id}")
 	public Object delete(@PathVariable int id) {
