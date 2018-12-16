@@ -3,7 +3,7 @@ import { OrgChartComponent } from '../org-chart.component'
 import { Dept } from '../../emp-dept.model';
 
 @Component({
-  selector: 'ui-tree',
+  selector: 'tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })

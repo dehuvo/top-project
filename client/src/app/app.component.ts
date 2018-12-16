@@ -27,7 +27,7 @@ export class AppComponent {
         } else {
           this.http.getEmp(code.value).subscribe(emp => {
             this.emp = emp;
-            sessionStorage.setItem('loginData', JSON.stringify(emp));
+            sessionStorage.setItem('user-emp', JSON.stringify(emp));
           });
         }
       });
@@ -80,8 +80,8 @@ export class AppComponent {
           });
         } else if (this.focus(deptId, "deptId")) {
           this.http.insertEmp(this.emp).subscribe(id => {
-            // this.emp.id = id;      // 로그인하지 않고 들어간다
-            this.emp.id = 0;       // 로그인 화면을 연다
+            // this.emp.id = id;      // 다시 로그인하지 않고 들어간다
+            this.emp.id = 0;       // 다시 로그인하고 들어간다
             this.editing = false;  // 새 사용자 등록 완료
           });
         }

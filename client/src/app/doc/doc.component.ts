@@ -22,7 +22,7 @@ export class DocComponent implements OnInit {
   editing: boolean;       // 문서를 작성/수정할 것인가?
 
   ngOnInit() {
-    this.user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
+    this.user = JSON.parse(sessionStorage.getItem("user-emp")) as Emp;
     this.getList();
   }
 

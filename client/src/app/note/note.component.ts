@@ -26,7 +26,7 @@ export class NoteComponent implements OnInit {
   editing = false;      // 작성/수정할 것인가?
 
   ngOnInit() {
-    this.user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
+    this.user = JSON.parse(sessionStorage.getItem("user-emp")) as Emp;
     this.getList(0);
   }
 

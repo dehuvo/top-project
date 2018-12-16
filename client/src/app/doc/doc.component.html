@@ -3,34 +3,32 @@
   <p class="text-right">
     <a class="btn btn-success btn-sm" (click)="newDoc()">문서 작성</a>
   </p>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>작성부서</th>
-          <th>작성자</th>
-          <th style="width:50%; text-align:left;">제목</th>
-          <th>작성일시</th>
-          <th>상태</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let doc of docs; index as i" (click)="get(doc)">
-          <td>{{doc.dept}}</td>
-          <td>{{doc.name}}</td>
-          <td class="textLeft">{{doc.title}}</td>
-          <td>{{doc.ts|date:"yyyy-MM-dd HH:mm"}}</td>
-          <td>{{doc.publish && doc.stat == 3? "공지": STAT[doc.stat]}}</td>
-        </tr>
-        <tr *ngIf="!docs.length">
-          <td colspan="5" class="fontGray">작성한 결재문서가 없습니다.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table table-responsive table-bordered">
+    <thead>
+      <tr>
+        <th>작성부서</th>
+        <th>작성자</th>
+        <th style="width:50%; text-align:left;">제목</th>
+        <th>작성일시</th>
+        <th>상태</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let doc of docs" (click)="get(doc)">
+        <td>{{doc.dept}}</td>
+        <td>{{doc.name}}</td>
+        <td class="textLeft">{{doc.title}}</td>
+        <td>{{doc.ts|date:"yyyy-MM-dd HH:mm"}}</td>
+        <td>{{doc.publish && doc.stat == 3? "공지": STAT[doc.stat]}}</td>
+      </tr>
+      <tr *ngIf="!docs.length">
+        <td colspan="5" class="fontGray">작성한 결재문서가 없습니다.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<!-- 문서 작성/수정 -->
+<!-- 문서 작성/수정 -- 취소/저장/상신/삭제 -->
 <div *ngIf="!viewList && editing && doc">
   <h4 class="sub-header">※ 문서 작성/수정/상신</h4>
   <form class="form-horizontal">
@@ -39,7 +37,7 @@
         <label class="col-lg-2 control-label">전결</label>
         <div class="col-lg-10">
           <label class="radio-label" *ngFor="let a of approvals; index as i">
-            &nbsp; <input class="radioBtn" type="radio" name="appr" [value]="i"
+            &nbsp; <input class="radioBtn" type="radio" name="approval"
             [checked]="i == doc.count - 1" (click)="doc.count = i + 1">
             &nbsp;{{a.name}} ({{a.dept}}) &nbsp; &nbsp; &nbsp;
           </label>
@@ -110,10 +108,12 @@
       </td>
     </tr>
     <tr style="text-align:left">
-      <th>제목</th><td colspan="4" class="textLeft">{{doc.publish? "[공지] &nbsp; &nbsp;": ""}}{{doc.title}}</td>
+      <th>제목</th>
+      <td colspan="4" class="textLeft">{{doc.publish? "[공지] &nbsp; &nbsp;": ""}}{{doc.title}}</td>
     </tr>
     <tr style="text-align:left">
-      <th>내용</th><td colspan="4" class="textLeft textArea">{{doc.body}}</td>
+      <th>내용</th>
+      <td colspan="4" class="textLeft textArea">{{doc.body}}</td>
     </tr>
   </table>
   <form *ngIf="aIndex &lt; doc.approvals.length" class="form-horizontal well control-group">

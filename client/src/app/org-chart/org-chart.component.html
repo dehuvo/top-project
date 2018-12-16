@@ -1,47 +1,43 @@
-<div class="bs-docs-section">
-  <div class="row">
-    <div class="col-lg-4">
-      <ui-tree [depts]="depts" [manager]="manager"></ui-tree>
-      <input *ngIf="adding" placeholder="새 부서 이름" title="[Enter] 적용, [Esc] 취소"
-              type="text" id="a" (keydown.enter)="add($event)" (keydown.esc)="adding = false">
-      <br><br>
-    </div>
-
-    <div class="col-lg-8">
-      <header *ngIf="dept && emps">
-        <strong [title]="manager? '(클릭) - 부서 이름 변경': ''" (click)="renameDept()">{{dept.name}} &nbsp; </strong>
-        <input *ngIf="renaming" id="r" placeholder="새 이름" title="[Enter] 적용, [Esc] 취소"
-                type="text" (keydown.enter)="rename($event)" (keydown.esc)="renaming = false">
-        <b *ngIf="manager && !renaming && !emps.length && dept.upId" title="폐쇄" (click)="deleteDept()">&#x2716;</b>
-        <span *ngIf="!renaming && emps.length">리더&nbsp; : &nbsp; &nbsp;
-          <span *ngIf="!dept.chief">(없음)</span>
-          <span *ngIf="dept.chief">
-            {{dept.chiefName}} &nbsp; <b *ngIf="manager && dept.upId" title="해임" (click)="dismiss()">&#x2716;</b>
-          </span>
+<div class="bs-docs-section row">
+  <div class="col-lg-4">
+    <tree [depts]="depts" [manager]="manager"></tree>
+    <input *ngIf="adding" placeholder="새 부서 이름" title="[Enter] 적용, [Esc] 취소"
+            type="text" id="a" (keydown.enter)="add($event)" (keydown.esc)="adding = false">
+    <br><br>
+  </div>
+  <div class="col-lg-8">
+    <header *ngIf="dept && emps">
+      <strong [title]="manager? '(클릭) - 부서 이름 변경': ''" (click)="renameDept()">{{dept.name}} &nbsp; </strong>
+      <input *ngIf="renaming" id="r" placeholder="새 이름" title="[Enter] 적용, [Esc] 취소"
+              type="text" (keydown.enter)="rename($event)" (keydown.esc)="renaming = false">
+      <b *ngIf="manager && !renaming && !emps.length && dept.upId" title="폐쇄" (click)="deleteDept()">&#x2716;</b>
+      <span *ngIf="!renaming && emps.length">리더&nbsp; : &nbsp; &nbsp;
+        <span *ngIf="!dept.chief">(없음)</span>
+        <span *ngIf="dept.chief">
+          {{dept.chiefName}} &nbsp; <b *ngIf="manager && dept.upId" title="해임" (click)="dismiss()">&#x2716;</b>
         </span>
-      </header>
-
-      <table class="table" *ngIf="emps && emps.length">
-        <tr>
-          <th>이름</th><th>부서</th><th>별명</th><th>전화</th><th>이메일</th>
-        </tr>
-        <tr *ngFor="let emp of emps" id="e_{{emp.id}}"
-            [class.sub-dept]="emp.deptId != dept.id"
-            [draggable]="manager && emp.deptId == dept.id && emp.id != dept.chief"
-            (dragstart)="drag($event, emp)">
-          <td>
-            <input title="리더" name="chief" [disabled]="!manager || emp.deptId != dept.id"
-              type="radio" (click)="appoint(emp)" [checked]="emp.id == dept.chief">
-            &nbsp; {{emp.name}} &nbsp;
-            <b *ngIf="manager && emp.deptId == dept.id && emp.id != dept.chief"
-               title="퇴사" (click)="deleteEmp(emp.id)">&#x2716;</b>
-          </td>
-          <td>{{emp.deptName}}</td>
-          <td>{{emp.code}}</td>
-          <td>{{emp.phone}}</td>
-          <td>{{emp.email}}</td>
-        </tr>
-      </table>
-    </div>
+      </span>
+    </header>
+    <table class="table" *ngIf="emps && emps.length">
+      <tr>
+        <th>이름</th><th>부서</th><th>별명</th><th>전화</th><th>이메일</th>
+      </tr>
+      <tr *ngFor="let emp of emps" id="e_{{emp.id}}"
+          [class.sub-dept]="emp.deptId != dept.id"
+          [draggable]="manager && emp.deptId == dept.id && emp.id != dept.chief"
+          (dragstart)="drag($event, emp)">
+        <td>
+          <input title="리더" name="chief" [disabled]="!manager || emp.deptId != dept.id"
+            type="radio" (click)="appoint(emp)" [checked]="emp.id == dept.chief">
+          &nbsp; {{emp.name}} &nbsp;
+          <b *ngIf="manager && emp.deptId == dept.id && emp.id != dept.chief"
+             title="퇴사" (click)="deleteEmp(emp.id)">&#x2716;</b>
+        </td>
+        <td>{{emp.deptName}}</td>
+        <td>{{emp.code}}</td>
+        <td>{{emp.phone}}</td>
+        <td>{{emp.email}}</td>
+      </tr>
+    </table>
   </div>
 </div>

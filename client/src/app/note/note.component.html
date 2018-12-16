@@ -1,7 +1,7 @@
 <!-- 목록 -->
 <div *ngIf="viewList">
   <p class="text-right">
-    <a class="btn btn-success btn-sm" (click)="newNote()">글작성</a>
+    <a class="btn btn-success btn-sm" (click)="newNote()">글 작성</a>
   </p>
   <table class="table table-bordered">
     <tr class="active">
@@ -27,7 +27,7 @@
     <div  *ngIf="skip - off + UNIT * 2 &lt; count" class="pagination"><a
          (click)="getList(skip - off + UNIT)">&#x25b6;</a></div>
     <div  *ngIf="skip - off + UNIT &lt; count" class="pagination"><a
-         (click)="getList((count - 1) - (count - 1) % ROWS)">&#x25cf;</a></div>
+         (click)="getList((count - 1) - (count - 1) % ROWS)">&#x25fc;</a></div>
   </div>
 <!-- &#x25cf; &#x2b24; &#x26ab; &#x25fc; &#x25b7; &#x25c1;  &#x25c0; &#x25b6; -->
 </div>
@@ -77,8 +77,8 @@
     </tr>
   </table>
   <p class="text-right" style="margin-top: 10px">
-    <a *ngIf="user.id == note.author" class="btn btn-default btn-sm" (click)="delete()">삭제</a>&nbsp;
-    <a *ngIf="user.id == note.author" class="btn btn-primary btn-sm" (click)="editing = true">수정</a>&nbsp;
+    <a class="btn btn-default btn-sm" (click)="delete()"       *ngIf="user.id == note.author">삭제</a>&nbsp;
+    <a class="btn btn-primary btn-sm" (click)="editing = true" *ngIf="user.id == note.author">수정</a>&nbsp;
     <a class="btn btn-default btn-sm" (click)="gotoList()">목록</a>
   </p>
 </div>

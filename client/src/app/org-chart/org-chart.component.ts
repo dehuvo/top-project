@@ -30,7 +30,7 @@ export class OrgChartComponent implements OnInit {
   // 로그인 사용자가 매니저인가 조사하여 넣는다
   private setManager(): void {
     if (this.dept == this.depts[0]) {
-      const user = JSON.parse(sessionStorage.getItem("loginData")) as Emp;
+      const user = JSON.parse(sessionStorage.getItem("user-emp")) as Emp;
       this.manager = user.id == this.depts[0].chief;
     }
   }
