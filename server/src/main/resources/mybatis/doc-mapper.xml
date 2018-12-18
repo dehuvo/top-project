@@ -17,12 +17,12 @@
          from doc d join emp e on e.id = d.author
                     join dept t on t.id = e.dept_id
                     join approval a on a.doc_id = d.id
-        where d.author = #{userId}                   -- 기안자
+        where d.author = #{userId}                   -- 내가 기안한 문서
            or d.id in (select doc_id
                          from approval
-                        where approver = #{userId}   -- 결재자
+                        where approver = #{userId}   -- 내가 결재자인 문서
                           and stat != 0)
-           or d.publish = true and stat = 3          -- 공지
+           or d.publish = true and stat = 3          -- 승인된 공지 문서
         group by a.doc_id
         order by stat, d.ts desc
         <if test="rows">limit #{rows}</if>
