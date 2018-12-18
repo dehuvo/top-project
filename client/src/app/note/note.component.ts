@@ -41,9 +41,9 @@ export class NoteComponent implements OnInit {
       [this.count, this.notes] = list;
       this.skip = skip;
       this.off = skip % this.UNIT;
-      this.skips = [];
       const skipsStart = skip - this.off;
       const skipsEnd = Math.min(this.count, skipsStart + this.UNIT);
+      this.skips = [];
       for (let s = skipsStart; s < skipsEnd; s += ROWS) {
         this.skips.push(s);
       }
@@ -64,8 +64,8 @@ export class NoteComponent implements OnInit {
   private newNote() {
     const [author, name] = [this.user.id, this.user.name];
     this.note = { author, name, title: "", body: "" } as Note;
-    this.viewList = false;
     this.editing = true;
+    this.viewList = false;
   }
 
   // 삭제
@@ -75,20 +75,15 @@ export class NoteComponent implements OnInit {
 
   // 저장
   private save(title, body) {
-    if (this.focus(title, "title") && this.focus(body, "body")) {
+    if (!title.value) {
+      title.focus();
+    } else if (!body.value) {
+      body.focus();
+    } else {
+      this.note.title = title.value;
+      this.note.body = body.value;
       const f = this.note.id? "update": "insert";
       this.noteHttp[f](this.note).subscribe(() => this.gotoList());
-    }
-  }
-
-  // 노드 값이 있으면 값을 넣고, 없으면 포커스 (노드, 필드 이름)
-  private focus(node, field: string): boolean {
-    if (node.value) {
-      this.note[field] = node.value;
-      return true;
-    } else {
-      node.focus();
-      return false;
     }
   }
 

@@ -1,13 +1,13 @@
 <!-- 목록 -->
 <div *ngIf="viewList">
   <p class="text-right">
-    <a class="btn btn-success btn-sm" (click)="newNote()">글 작성</a>
+    <a class="btn btn-success btn-sm" (click)="newNote()">새 글쓰기</a>
   </p>
   <table class="table table-bordered">
     <tr class="active">
-      <th class="col-lg-1">글번호</th>
+      <th class="col-lg-1">글 번호</th>
       <th class="col-lg-7 textLeft">제목</th>
-      <th class="col-lg-2">작성자</th>
+      <th class="col-lg-2">글쓴이</th>
       <th class="col-lg-2">등록일시</th>
     </tr>
     <tr *ngFor="let note of notes; index as i" (click)="get(note.id)">
@@ -35,7 +35,7 @@
 <!-- 글 쓰기 / 수정 -->
 <div *ngIf="!viewList && editing && note" class="table-responsive">
   <form class="form-horizontal">
-    <h4 class="sub-header">게시판 글작성</h4>
+    <h4 class="sub-header">게시판 글쓰기</h4>
     <div class="control-group controls well bs-component">
       <div class="form-group">
         <label class="col-lg-2 control-label">제목</label>
@@ -50,7 +50,7 @@
         </div>
       </div>
       <p class="text-right">
-        <button class="btn btn-primary btn-sm" (click)="save(title, body)">등록</button>&nbsp;
+        <a class="btn btn-primary btn-sm" (click)="save(title, body)">등록</a>&nbsp;
         <a class="btn btn-default btn-sm" (click)="cancel()">취소</a>
       </p>
     </div>

@@ -40,6 +40,7 @@ public class EmpServiceTest {
 	 	emp.setPw("나 두령이오.");
 	 	service.insert(emp);
 	 	assertTrue(service.isPwOk("두령", "나 두령이오."));
+	 	dao.deletePhysically(emp.getId());
 	 }
 
 	@Test
